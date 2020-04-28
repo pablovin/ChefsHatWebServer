@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chef's Hat Card Game</title>
+</head>
+
+<style>
+    body, html {
+  height: 100%;
+}
+
+body {
+  /* The image used */
+  background-image: url( "/static/images/background.png");
+}
+
+.centered {
+position: fixed;
+  top: 45%;
+  left: 45%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #48cc63;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+input[type=text] {
+  border: 2px solid #48cc63;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: black;
+  margin: 4px 2px;
+  padding: 16px 32px;
+}
+
+</style>
+<body>
+
+
+      <div class="centered">
+
+      <img align="center" src="/static/images/indexImage.png" alt="My image"><br>
+      <h2 align="center"> Please identify yourself.</h2>
+<form action="{% url 'SingleGame:selectAdversaries'%}" method="post">
+{% csrf_token %}
+    <p align="center"><input type="text" placeholder="Your name.." name="userName" id ="userNameID"> <br>
+<input type="submit" value="Start Game">
+    </p>
+    <p> Your name will identify you in all of our games. <br>Please choose a unique name, and use it again <br>if you play another game.</p>
+</form>
+  </div>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title>Chef's Hat Card Game - Single Game</title>
+<!--    <style>-->
+
+<!--    .divL {-->
+<!--      float: left;-->
+<!--      box-sizing: border-box;-->
+<!--      width: 60%;-->
+<!--      padding: 10px;-->
+<!--    }-->
+
+<!--     .divr {-->
+<!--      float: left;-->
+<!--      box-sizing: border-box;-->
+<!--      width: 40%;-->
+<!--      padding: 10px;-->
+<!--    }-->
+<!--    .divL {-->
+<!--      background: #ffe9c6;-->
+<!--    }-->
+<!--    .divR {-->
+<!--      background: #ffdad8;-->
+<!--    }-->
+<!--    </style>-->
+
+    <style>
+
+    body {
+  /* The image used */
+  background-image: url( "/static/images/background.png");
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left, .right {
+  width: 25%;
+}
+
+.middle {
+  width: 50%;
+}
+
+.singleColumn {
+  width: 75%;
+  text-align:left;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.radio_item{
+    display: none !important;
+    }
+    .label_item {
+    opacity: 0.3;
+    }
+
+    .radio_item:checked + label {
+    opacity: 1;
+    }
+
+label {
+cursor: pointer;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #48cc63;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+/* The Modal (background) */
+.modal {
+  display: display; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #ff8080;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #ff8080;
+  color: white;
+}
+
+
+
+
+/* Pizza Content */
+.pizza-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+
+.pizza-header {
+  padding: 2px 16px;
+  background-color: #48cc63;
+  color: white;
+}
+
+.pizza-body {padding: 2px 16px;}
+
+.pizza-footer {
+  padding: 2px 16px;
+  background-color: #48cc63;
+  color: white;
+}
+
+
+.header{
+background-color: #48cc63;
+width:100%;
+height:40px;
+color: white;
+padding-top: 10px;
+padding-left: 10px;
+font-size: 16px;
+}
+
+
+.notMyTurn {
+ background: rgba(0,0,0,0.25);
+ font-family: Verdana, Geneva, sans-serif;
+ color: #000000;
+ bottom: 0px;
+ z-index: 1;
+}
+
+.myTurn {
+ background: rgba(0,0,0,0.25);
+ color: #ffffff;
+ font-family: Verdana, Geneva, sans-serif;
+ bottom: 0px;
+ z-index: 1;
+ border-color: #48cc63;
+}
+
+
+</style>
+
+
+</head>
+<body>
+
+
+{% if hasErrorMessage  %}
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Oops!</h2>
+    </div>
+    <div class="modal-body">
+       <p>{{ErrorMessage}} </p>
+    </div>
+    <div class="modal-footer">
+      <h3>Please refer to the <a href="/static/images/rulebook.pdf" target="_blank">rule book!</a> for more information.</h3>
+    </div>
+  </div>
+
+</div>
+ {% endif  %}
+
+
+{% if isPizza  %}
+
+<div id="myModal" class="pizza">
+
+    <div class="pizza-content">
+    <div class="pizza-header">
+      <h2>Pizza ready!</h2>
+    </div>
+    <div class="pizza-body">
+       <form action="{% url 'SingleGame:doAction'%}" name="pizzaForm" method="post">
+            {% csrf_token %}
+           Pizza Ready! We are collecting the cards, wait a second!
+        <input id="pizzaID" name="playerID" type="hidden" value="{{playerTurn}}">
+        <input id="pizzaButton" name="pizzaButton" type="hidden" value="pizza">
+<!--        <input type="submit" value="Pizza!">-->
+        </form>
+
+        <script language ="javascript" >
+        function sendPizza() {
+        setInterval(function() {document.pizzaForm.submit();}, 3000);
+        }
+
+        var pizzaButton = document.getElementById("pizzaID");
+
+        if (typeof(pizzaButton) != 'undefined' && pizzaButton != null)
+        {
+          sendPizza()
+        }
+
+</script>
+
+
+    </div>
+    <div class="pizza-footer">
+      <h3>Please refer to the <a href="/static/images/rulebook.pdf" target="_blank">rule book!</a> for more information.</h3>
+    </div>
+  </div>
+
+</div>
+{% endif  %}
+
+<div class="row">
+    <div class="column left">
+        <div class="header">
+    <b>GAME:</b> {{currentGame}} - <b>ROUND:</b> {{currentRound}} - <b>PLAYER TURN:</b> {{playerTurnName}}
+        </div>
+    </div>
+
+    <div class="column middle">
+    </div>
+<div class="column right">
+        <div class="header">
+    Score: {{playerNames.0}}: {{ pointsScore.0}} - {{playerNames.1}}: {{ pointsScore.1}} - {{playerNames.2}}: {{ pointsScore.2}} - {{playerNames.3}}: {{ pointsScore.3}}
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+  <div class="column left">
+
+
+     <div {% if playerTurn == 0 %} class="myTurn" {% endif  %}>
+      <h1>Player 1</h1>
+      <img src="/static/images/playerAgent.png" alt="My image"><br>
+    <b>{{playerNames.0}} </b> <br>
+
+   <form action="{% url 'SingleGame:doAction'%}" name="PlayerAction" method="post">
+            {% csrf_token %}
+
+       {% for index, card in player0Cards %}
+       <input type="checkbox" class="radio_item" value="{{card}}" name="selectedAction" id="cardPlayer{{index}}">
+        <label class="label_item" for="cardPlayer{{index}}"> <img src="/static/images/{{card}}" width="48" height="72"> </label>
+
+       {% endfor %}
+               <input type="checkbox" class="radio_item" value="pass" name="selectedAction" id="gameStyle500">
+        <label class="label_item" for="gameStyle500"> <img src="/static/images/actionCards/pass.png" width="48" height="72"> </label>
+
+       {% if playerAction  %}
+    <input id="playerID" name="playerID" type="hidden" value="0">
+    <input type="submit" value="Do Action">
+          {% endif  %}
+    </form>
+    </div>
+
+      <div {% if playerTurn == 1 %} class="myTurn" {% endif  %}>
+      <h1>Player 2</h1><br>
+           <img src="{{avatars.0}}" alt="My image"><br>
+      <b> {{playerNames.1}} </b><br>
+
+     {% for card in player1Cards %}
+      <img src="/static/images/cardBack.png" width="48" height="72" alt="Card {{card}}">
+       {% endfor%}
+      </div>
+
+
+  </div>
+
+
+  <div class="column middle">
+
+    <img src="/static/{{expDirectory}}/currentBoard.png" alt="My image">
+  </div>
+
+  <div class="column right">
+
+       <div {% if playerTurn == 3 %} class="myTurn" {% endif  %}>
+       <h1>Player 4</h1>
+        <img src="{{avatars.2}}" alt="My image"><br>
+       <b>{{playerNames.3}} </b><br>
+             {% for card in player3Cards %}
+      <img src="/static/images/cardBack.png" width="48" height="72" alt="Card {{card}}">
+       {% endfor%}
+       </div>
+
+         <div {% if playerTurn == 2 %} class="myTurn" {% endif  %}>
+      <h1>Player 3</h1>
+           <img src="{{avatars.1}}" alt="My image"><br>
+      {{playerNames.2}}<br>
+
+
+      {% for card in player2Cards %}
+      <img src="/static/images/cardBack.png" width="48" height="72" alt="Card {{card}}">
+       {% endfor%}
+      </div>
+
+
+  </div>
+</div>
+ {% if oponentsAction  %}
+    <form action="{% url 'SingleGame:doAction'%}" name="opponentForm" method="post">
+            {% csrf_token %}
+    <input id="oponentID" name="playerID" type="hidden" value="{{playerTurn}}">
+<!--    <input type="submit" id="opponentAction" value="Do Action">-->
+    </form>
+       {% endif  %}
+
+
+<!--<div class="row">-->
+
+<!--  <div class="singleColumn">-->
+<!--&lt;!&ndash;       {% if playerAction  %}&ndash;&gt;-->
+<!--&lt;!&ndash;      <h2> Do an action </h2>&ndash;&gt;-->
+<!--&lt;!&ndash;   <form action="{% url 'SingleGame:doAction'%}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;            {% csrf_token %}&ndash;&gt;-->
+
+<!--&lt;!&ndash;       {% for index, choice in playerActions %}&ndash;&gt;-->
+<!--&lt;!&ndash;           <input type="radio" class="radio_item" value="{{choice}}" name="selectedAction" id="gameStyle{{index}}" checked="False">&ndash;&gt;-->
+<!--&lt;!&ndash;        <label class="label_item" for="gameStyle{{index}}"> <img src="/static/{{expDirectory}}/{{choice}}.png"> </label>&ndash;&gt;-->
+<!--&lt;!&ndash;       {% endfor %}&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="radio" class="radio_item" value="pass" name="selectedAction" id="gameStyle500" checked="True">&ndash;&gt;-->
+<!--&lt;!&ndash;        <label class="label_item" for="gameStyle500"> <img src="/static/images/actionCards/pass.png"> </label>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <input id="playerID" name="playerID" type="hidden" value="0">&ndash;&gt;-->
+<!--&lt;!&ndash;    <input type="submit" value="Do Action">&ndash;&gt;-->
+<!--&lt;!&ndash;    </form>&ndash;&gt;-->
+<!--&lt;!&ndash;       {% endif  %}&ndash;&gt;-->
+<!--  </div>-->
+
+<!--  <div class="column right">-->
+<!--    <h2>Oponents Actions</h2>-->
+<!--     -->
+<!--  </div>-->
+
+
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+
+
+
+</script>
+
+<script language ="javascript" >
+function sendOpponentAction() {
+{% if playerTurn == 0 %}
+setInterval(function() {document.opponentForm.submit();}, 1000);
+{% else %}
+setInterval(function() {document.opponentForm.submit();}, 3000);
+{% endif %}
+}
+
+var opponentButton = document.getElementById("oponentID");
+
+if (typeof(opponentButton) != 'undefined' && opponentButton != null)
+{
+  sendOpponentAction()
+}
+
+
+</script>
+
+<!--<div class="middle-box">-->
+
+<!--    <form action="{% url 'SingleGame:doAction'%}" method="post">-->
+<!--        {% csrf_token %}-->
+<!--    Allowed Actions: <select name = "selectedAction">-->
+<!--        {% for choice in currentlyAllowedActions %}-->
+<!--            <option value = "{{ choice}}" selected>{{ choice}}</option>-->
+<!--         {% endfor %}-->
+<!--</select>-->
+
+
+<!--<input type="submit" value="Do Action">-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div class="rightbox">-->
+
+<!--    <form action="{% url 'SingleGame:doAction'%}" method="post">-->
+<!--        {% csrf_token %}-->
+<!--    Allowed Actions: <select name = "selectedAction">-->
+<!--        {% for choice in currentlyAllowedActions %}-->
+<!--            <option value = "{{ choice}}" selected>{{ choice}}</option>-->
+<!--         {% endfor %}-->
+<!--</select>-->
+
+
+<!--<input type="submit" value="Do Action">-->
+<!--</form>-->
+<!--</div>-->
+
+</body>
+</html>

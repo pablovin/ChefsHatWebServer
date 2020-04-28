@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title>Chef's Hat Card Game - Single Game</title>
+<!--    <style>-->
+
+<!--    .divL {-->
+<!--      float: left;-->
+<!--      box-sizing: border-box;-->
+<!--      width: 60%;-->
+<!--      padding: 10px;-->
+<!--    }-->
+
+<!--     .divr {-->
+<!--      float: left;-->
+<!--      box-sizing: border-box;-->
+<!--      width: 40%;-->
+<!--      padding: 10px;-->
+<!--    }-->
+<!--    .divL {-->
+<!--      background: #ffe9c6;-->
+<!--    }-->
+<!--    .divR {-->
+<!--      background: #ffdad8;-->
+<!--    }-->
+<!--    </style>-->
+
+    <style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left, .right {
+  width: 25%;
+}
+
+.middle {
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+
+</head>
+<body>
+
+Game finished!
+Thanks!
+
+
+<!--<div class="middle-box">-->
+
+<!--    <form action="{% url 'SingleGame:doAction'%}" method="post">-->
+<!--        {% csrf_token %}-->
+<!--    Allowed Actions: <select name = "selectedAction">-->
+<!--        {% for choice in currentlyAllowedActions %}-->
+<!--            <option value = "{{ choice}}" selected>{{ choice}}</option>-->
+<!--         {% endfor %}-->
+<!--</select>-->
+
+
+<!--<input type="submit" value="Do Action">-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div class="rightbox">-->
+
+<!--    <form action="{% url 'SingleGame:doAction'%}" method="post">-->
+<!--        {% csrf_token %}-->
+<!--    Allowed Actions: <select name = "selectedAction">-->
+<!--        {% for choice in currentlyAllowedActions %}-->
+<!--            <option value = "{{ choice}}" selected>{{ choice}}</option>-->
+<!--         {% endfor %}-->
+<!--</select>-->
+
+
+<!--<input type="submit" value="Do Action">-->
+<!--</form>-->
+<!--</div>-->
+
+</body>
+</html>
