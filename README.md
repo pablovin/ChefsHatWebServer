@@ -9,10 +9,17 @@ For more information: https://github.com/pablovin/ChefsHatGYM
 
 Install the requirements from the Requirements.txt file.
 
-
-### Run the server
-
+### Run the game
+   -   Clone the git
+   -   Run server:
 ```python
 python manage.py runserver
 ```
-
+-   Access the game: 
+```python
+http://127.0.0.1:8000/SingleGame
+```
+- After playing, collect the dataset folder from :
+```python
+ChefsHatWebServer/ChefsHat/static
+```
