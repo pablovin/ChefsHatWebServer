@@ -182,7 +182,7 @@ def doAction(request):
 
     pizzaForm = request.POST.get('pizzaButton', False)
     player = int(request.POST.get('playerID', False))
-    nextAction = request.POST.get('nextActionButton', False)
+    nextAction = str(request.POST.get('nextActionButton', False))
 
     gameFinished = False
     simulateNextActions = False
@@ -191,10 +191,11 @@ def doAction(request):
     import sys
     print("---------", file=sys.stderr)
     print("nextAction:" + str(nextAction), file=sys.stderr)
+    print("nextAction:" + str(nextAction=="nextAction"), file=sys.stderr)
     print("agentNames:" + str(agentNames), file=sys.stderr)
     print("---------", file=sys.stderr)
 
-    if nextAction == "nextAction":
+    if nextAction=="nextAction":
         score = simulateActions(expName, nextPlayer, firstAction, currentRound, agentNames)
         gameFinished = True
         print("Simulating actions:" + str(nextAction), file=sys.stderr)
