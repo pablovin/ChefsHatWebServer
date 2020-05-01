@@ -131,7 +131,7 @@ input[type=button], input[type=submit], input[type=reset] {
     <div class="row">
   <div class="column singleColumn">
 
-      {% if gameOver %}  {
+      {% if gameOver %}
       <form action="{% url 'SingleGame:gameFinished'%}" method="post">
 {% csrf_token %}
           <input type="submit" value="End of the game!">
