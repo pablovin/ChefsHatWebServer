@@ -16,7 +16,11 @@ import pandas as pd
 
 import os
 
-from SingleGame.ChefsHatGYM.KEF.DataSetManager import DataSetManager
+import copy
+
+from keras.models import load_model
+
+from SingleGame.KEF.DataSetManager import DataSetManager
 
 def startNewGame(agentsNames, gameStyle):
 
@@ -87,9 +91,6 @@ def dealCards(expName):
     return startingPlayer
 
 def validatePlayerAction(actionList, validActions):
-
-    "['/deck/5.png', '/deck/5.png', '/deck/5.png']"
-
     # import sys
     # print("-----------", file=sys.stderr)
     # print ("Action:" + str(actionList), file=sys.stderr)
@@ -152,22 +153,14 @@ def validatePlayerAction(actionList, validActions):
     #
     # "CX;QX;JX"
 
-def simulateActions(expName, player, firstAction, currentRound):
+def simulateActions(expName, player, firstAction, currentRound, agentNames):
 
     gameFinished = False
     import sys
 
     while not gameFinished:
-
-        possibleActions, player1AllowedActions, highLevelActions = getPossibleActions(expName=expName,
-                                                                                      player=player,
-                                                                                      firstAction=firstAction)
-        action = doRandomAction(possibleActions)
-        action = highLevelActions[numpy.argmax(action)]
-
-        gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound)
-
-
+        action = numpy.zeros(200)
+        gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=False)
         if pizza:
             currentRound = doPizza(expName, currentRound)
             player = lastPlayer
@@ -176,18 +169,18 @@ def simulateActions(expName, player, firstAction, currentRound):
 
         firstAction = False
 
-
-        print("-----------", file=sys.stderr)
-        print("Next player:" + str(player), file=sys.stderr)
-        print("player1AllowedActions:" + str(len(player1AllowedActions)), file=sys.stderr)
-        print("newRound:" + str(newRound), file=sys.stderr)
+        #
+        # print("-----------", file=sys.stderr)
+        # print("Next player:" + str(player), file=sys.stderr)
+        # print("player1AllowedActions:" + str(len(player1AllowedActions)), file=sys.stderr)
+        # print("newRound:" + str(newRound), file=sys.stderr)
 
 
     return score
 
 
 
-def doPlayerAction(expName, player, action, firstAction, currentRound):
+def doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=True):
     dataSetDirectory = settings.BASE_DIR + settings.STATIC_URL + expName
     currentDataset = pd.read_pickle(dataSetDirectory + "/Dataset.pkl")
     dsManager = DataSetManager(dataSetDirectory=dataSetDirectory)
@@ -219,20 +212,37 @@ def doPlayerAction(expName, player, action, firstAction, currentRound):
         for a in range(4):
             playerStatus.append([])
 
-    possibleActions,currentHighLevelActions, highLevelActions = getPossibleActions(expName,player,firstAction)
+    possibleActions, currentHighLevelActions, highLevelActions = getPossibleActions(expName, player, firstAction)
+
+    if isHuman:
+        if player == 0:
+          action, error = validatePlayerAction(action, currentHighLevelActions)
+          if not error =="":
+              return False, False, player, newRound, -1, False, error, score
 
 
-    if player == 0:
-      action, error = validatePlayerAction(action, currentHighLevelActions)
-      if not error =="":
-          return False, False, player, newRound, -1, False, error, score
+        actionIndex = highLevelActions.index(action)
 
+        action = numpy.zeros(200)
+        action[actionIndex] = 1
+    else:
+        stateVector = []
+        for a in playerHand:
+            stateVector.append(a)
+        for a in board:
+            stateVector.append(a)
 
+        stateVector = numpy.array(stateVector) / 13
 
-    actionIndex = highLevelActions.index(action)
+        action = doAgentAction(possibleActions, stateVector, agentNames[player])
+        actionIndex = numpy.argmax(action)
 
-    action = numpy.zeros(200)
-    action[actionIndex] = 1
+        import sys
+        print("---------", file=sys.stderr)
+        print("Player:" + str(player), file=sys.stderr)
+        print("action:" + str(action), file=sys.stderr)
+        print("actionIndex:" + str(actionIndex), file=sys.stderr)
+
     loss = []
     totalActions = 1
 
@@ -287,7 +297,7 @@ def doPlayerAction(expName, player, action, firstAction, currentRound):
     pizza = False
     if not gameFinished:
         if len(playerStatus) == 4 and len(playerStatus[nextPlayer]) > 0:
-            while playerStatus[nextPlayer][0] == actionFinish:
+            while playerStatus[nextPlayer][0] == actionFinish or playerStatus[nextPlayer][0] == actionPass:
                 nextPlayer = nextPlayer + 1
                 if nextPlayer == 4:
                     nextPlayer = 0
@@ -307,20 +317,6 @@ def doPlayerAction(expName, player, action, firstAction, currentRound):
 
         if playerFinishedCounter <= 1:
             pizza = True
-        else:
-            # Checking if it is a new round
-            if currentDataset.shape[0] >= 4:  #
-                # get the three last
-                oldRounds = []
-                for a in range(4):
-                    oldFrame = currentDataset.iloc[-a + 1]
-                    round = oldFrame["Round Number"]
-                    if round == "":
-                        round = -1
-                    oldRounds.append(round)
-
-                if numpy.array(oldRounds).sum() / round * 4 == 1:
-                    newRound = rounds + 1
 
     error = ""
     return gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score
@@ -415,14 +411,67 @@ def discardCards(playerHand, action, highLevelActions):
               board[boardPosition] = i
               boardPosition = boardPosition + 1
 
-
   playerHand = sorted(playerHand)
   return originalCardDiscarded, board, playerHand
+
+
+def doAgentAction(possibleActions, state, agent):
+
+    import keras.backend as K
+    def loss(y_true, y_pred):
+        LOSS_CLIPPING = 0.2  # Only implemented clipping for the surrogate loss, paper said it was best
+        ENTROPY_LOSS = 5e-3
+        y_tru_valid = y_true[:, 0:200]
+        old_prediction = y_true[:, 200:400]
+        advantage = y_true[:, 400][0]
+
+        prob = K.sum(y_tru_valid * y_pred, axis=-1)
+        old_prob = K.sum(y_tru_valid * old_prediction, axis=-1)
+        r = prob / (old_prob + 1e-10)
+
+        return -K.mean(K.minimum(r * advantage, K.clip(r, min_value=1 - LOSS_CLIPPING,
+                                                       max_value=1 + LOSS_CLIPPING) * advantage) + ENTROPY_LOSS * -(
+                prob * K.log(prob + 1e-10)))
+
+
+    agentName = agent.split("_")[0]
+
+    if agentName == "DQL":
+        modelDirectory = settings.BASE_DIR + settings.STATIC_URL+"/trainedModels/actor_DQL.hd5"
+    elif agentName == "A2C":
+        modelDirectory = settings.BASE_DIR + settings.STATIC_URL+"/trainedModels/actor_A2C.hd5"
+    elif agentName == "PPO":
+        modelDirectory = settings.BASE_DIR + settings.STATIC_URL+"/trainedModels/actor_PPO.hd5"
+
+    elif agentName == "Random":
+        return doRandomAction(possibleActions)
+
+    actor = load_model(modelDirectory, custom_objects={'loss':loss})
+
+    stateVector = numpy.expand_dims(numpy.array(state), 0)
+
+    possibleActionsVector = numpy.expand_dims(numpy.array(possibleActions), 0)
+    a = actor.predict([stateVector, possibleActionsVector])[0]
+
+    # if numpy.array(possibleActions).sum() == 1:
+    #     a = numpy.zeros(200)
+    #     a[199]=1
+
+    import sys
+    print("---------", file=sys.stderr)
+    print("Agent:" + str(agent), file=sys.stderr)
+    print ("possibleActions2:" + str(possibleActionsVector), file=sys.stderr )
+    print ("stateVector:" + str(stateVector), file=sys.stderr )
+    print("a:" + str(a), file=sys.stderr)
+    print("len(a):" + str(len(a)), file=sys.stderr)
+
+
+
+    return a
 
 def doRandomAction(possibleActions):
 
     possibleActions = numpy.copy(possibleActions)
-
 
     possibleActions = possibleActions
 
@@ -435,8 +484,6 @@ def doRandomAction(possibleActions):
     return a
 
 def getPossibleActions(expName, player, firstAction):
-
-
 
     dataSetDirectory = settings.BASE_DIR + settings.STATIC_URL + expName
     readFile = pd.read_pickle(dataSetDirectory + "/Dataset.pkl")

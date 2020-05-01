@@ -9,5 +9,5 @@ urlpatterns = [
     path('startNewExperiment', views.startNewExperiment, name='startNewExperiment'),
     path('doAction', views.doAction, name='doAction'),
     path('startGame', views.startGame, name='startGame'),
-    path('gameFinished', views.startGame, name='gameFinished')
+    path('gameFinished', views.finishGame, name='gameFinished')
 ]

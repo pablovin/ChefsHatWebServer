@@ -30,7 +30,7 @@
 
     body {
   /* The image used */
-  background-image: url( "/static/images/background.png");
+  background-image: url( "/static/images/gameBackground.png");
 }
 
 
@@ -302,6 +302,49 @@ font-size: 16px;
 </div>
 {% endif  %}
 
+
+{% if simulateNextActions  %}
+
+<div id="myModal" class="pizza">
+
+    <div class="pizza-content">
+    <div class="pizza-header">
+      <h2>Game finished!!</h2>
+    </div>
+    <div class="pizza-body">
+       <form action="{% url 'SingleGame:doAction'%}" name="nextActionForm" method="post">
+            {% csrf_token %}
+           The next actions will be simulated, wait a second!
+        <input id="nextActionID" name="nextActionID" type="hidden" value="nextAction">
+        <input id="nextActionButton" name="nextActionButton" type="hidden" value="nextAction">
+<!--        <input type="submit" value="Pizza!">-->
+        </form>
+
+        <script language ="javascript" >
+        function sendNextAction() {
+        setInterval(function() {document.nextActionForm.submit();}, 3000);
+        }
+
+        var nextActionButton = document.getElementById("nextActionButton");
+
+        if (typeof(nextActionButton) != 'undefined' && nextActionButton != null)
+        {
+          sendNextAction()
+        }
+
+</script>
+
+
+    </div>
+    <div class="pizza-footer">
+      <h3>Please refer to the <a href="/static/images/rulebook.pdf" target="_blank">rule book!</a> for more information.</h3>
+    </div>
+  </div>
+
+</div>
+{% endif  %}
+
+
 <div class="row">
     <div class="column left">
         <div class="header">
@@ -326,7 +369,9 @@ font-size: 16px;
 
      <div {% if playerTurn == 0 %} class="myTurn" {% endif  %}>
       <h1>Player 1</h1>
-      <img src="/static/images/playerAgent.png" alt="My image"><br>
+         {% if hasAvatarRole %} <img src="{{avatarRoles.0}}" alt="P1Role"  width="75px" height="94px"> {% endif  %}
+      <img src="/static/images/playerAgent.png" alt="My image">
+         <br>
     <b>{{playerNames.0}} </b> <br>
 
    <form action="{% url 'SingleGame:doAction'%}" name="PlayerAction" method="post">
@@ -349,7 +394,10 @@ font-size: 16px;
 
       <div {% if playerTurn == 1 %} class="myTurn" {% endif  %}>
       <h1>Player 2</h1><br>
-           <img src="{{avatars.0}}" alt="My image"><br>
+          {% if hasAvatarRole %} <img src="{{avatarRoles.1}}" alt="P2Role"  width="75px" height="94px"> {% endif  %}
+           <img src="{{avatars.0}}" alt="P2Avatar">
+
+         <br>
       <b> {{playerNames.1}} </b><br>
 
      {% for card in player1Cards %}
@@ -362,24 +410,34 @@ font-size: 16px;
 
 
   <div class="column middle">
-
+<p align="center">
     <img src="/static/{{expDirectory}}/currentBoard.png" alt="My image">
+</p>
   </div>
+
 
   <div class="column right">
 
        <div {% if playerTurn == 3 %} class="myTurn" {% endif  %}>
        <h1>Player 4</h1>
-        <img src="{{avatars.2}}" alt="My image"><br>
+           {% if hasAvatarRole %} <img src="{{avatarRoles.2}}" alt="P4Role" width="75px" height="94px"> {% endif  %}
+        <img src="{{avatars.2}}" alt="P4Avatar">
+
+         <br>
        <b>{{playerNames.3}} </b><br>
              {% for card in player3Cards %}
       <img src="/static/images/cardBack.png" width="48" height="72" alt="Card {{card}}">
        {% endfor%}
        </div>
 
+
+
          <div {% if playerTurn == 2 %} class="myTurn" {% endif  %}>
       <h1>Player 3</h1>
-           <img src="{{avatars.1}}" alt="My image"><br>
+              {% if hasAvatarRole %} <img src="{{avatarRoles.3}}" alt="P3Role"  width="75px" height="94px"> {% endif  %}
+           <img src="{{avatars.1}}" alt="P3">
+
+         <br>
       {{playerNames.2}}<br>
 
 

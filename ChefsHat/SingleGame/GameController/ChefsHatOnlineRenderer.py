@@ -16,7 +16,7 @@ import pandas as pd
 
 import os
 
-from SingleGame.KEF import DataSetManager
+from SingleGame.KEF.DataSetManager import DataSetManager
 
 def getPlayingField():
     return cv2.imread(settings.BASE_DIR + settings.STATIC_URL + "images/playingField.png")
@@ -71,28 +71,28 @@ def getCards():
     return cards,passCard,roleCards,blackCard, backCard
 
 
-def drawBoard(originalImage, board, cards, roleCards):
+def drawBoard(originalImage, board, cards):
     currentBoardPlace = 0
     for i in range(len(board)):
         if int(board[i]) > 0 and not int(board[i]) == 13:
             card = numpy.array(cards[int(board[i])])
-            card = cv2.resize(card, (176, 243))
+            card = numpy.array(cv2.resize(card, (236, 323)))
             if currentBoardPlace < 3:
-                yPosition =  320
-                xPosition =  890 + (
-                        currentBoardPlace * 225)
+                yPosition =  1095
+                xPosition =  595 + (
+                        currentBoardPlace * 300)
 
             elif currentBoardPlace >= 3 and currentBoardPlace < 8:
-                yPosition =  620
-                xPosition =  1120 + ((currentBoardPlace - 5) * 225)
-
+                yPosition =  1495
+                xPosition =  295 + ((currentBoardPlace - 3) * 300)
+            #
             elif currentBoardPlace >= 8:
 
-                yPosition =  833
-                xPosition = 890 + (( currentBoardPlace - 8) * 225)
+                yPosition =  1895
+                xPosition = 595 + (( currentBoardPlace - 8) * 225)
 
-            originalImage[yPosition:yPosition + roleCards[0].shape[0],
-            xPosition:xPosition + roleCards[0].shape[1]] = card
+            originalImage[yPosition:yPosition + card.shape[0],
+            xPosition:xPosition + card.shape[1]] = card
 
         currentBoardPlace = currentBoardPlace + 1
 
@@ -100,57 +100,74 @@ def drawBoard(originalImage, board, cards, roleCards):
 
 
 
-def getBoard(board, cards, roleCards, passCard, actionType, playerStatus):
+def getBoard(board, cards, roleCards, passCard, actionType, playerStatus, roles):
 
     playingField = getPlayingField()
     playingField = numpy.array(playingField)
-
+    playingField = drawRoleCard(playingField, roles, roleCards)
 
     if not actionType == actionDeal:
-        playingField = drawBoard(playingField,board, cards, roleCards)
+        playingField = drawBoard(playingField,board, cards)
         playingField = drawPassCard(playingField, playerStatus, passCard)
 
-
-    playingField = cv2.resize(playingField,(800,600))
+    playingField = cv2.resize(playingField,(600,800))
 
     return playingField
 
 def drawPassCard(originalImage, playerCurrentStatus, card):
 
-    if ( len(playerCurrentStatus[0]) > 0 and DataSetManager.actionPass == playerCurrentStatus[0][0]):
+    card = numpy.array(cv2.resize(card, (236, 323)))
+    if ( len(playerCurrentStatus[0]) > 0 and actionPass == playerCurrentStatus[0][0]):
         #1
-        yPosition = 320
-        xPosition = 655
+        yPosition = 1025
+        xPosition = 185
 
         originalImage[yPosition:yPosition + card.shape[0],
         xPosition:xPosition + card.shape[1]] = card
 
-    if (len(playerCurrentStatus[1]) > 0 and DataSetManager.actionPass == playerCurrentStatus[1][0]):
+    if (len(playerCurrentStatus[1]) > 0 and actionPass == playerCurrentStatus[1][0]):
         #2
-        yPosition = 920
-        xPosition = 655
+        yPosition = 1950
+        xPosition = 185
 
         originalImage[yPosition:yPosition + card.shape[0],
         xPosition:xPosition + card.shape[1]] = card
 
-    if (len(playerCurrentStatus[2]) > 0 and DataSetManager.actionPass == playerCurrentStatus[2][0]):
+    if (len(playerCurrentStatus[2]) > 0 and actionPass == playerCurrentStatus[2][0]):
         #3
-        yPosition = 920
-        xPosition = 1570
+        yPosition = 1950
+        xPosition = 1600
 
 
         originalImage[yPosition:yPosition + card.shape[0],
         xPosition:xPosition + card.shape[1]] = card
 
-    if (len(playerCurrentStatus[3]) > 0 and DataSetManager.actionPass == playerCurrentStatus[3][0]):
+    if (len(playerCurrentStatus[3]) > 0 and actionPass == playerCurrentStatus[3][0]):
         #4
-        yPosition = 320
-        xPosition = 1570
-
-
+        yPosition = 1025
+        xPosition = 1625
 
         originalImage[yPosition:yPosition + card.shape[0],
         xPosition:xPosition + card.shape[1]] = card
+
+    return originalImage
+
+def drawRoleCard(originalImage, roles, roleCards):
+
+    if len(roles) > 0:
+
+        positions = [[520,45],[2450,45], [515,1735], [2450,1735] ]
+        for pIndex, position in zip(range(4),positions):
+            card = roleCards[roles.index(pIndex)]
+            card = numpy.array(cv2.resize(card, (236, 323)))
+            yPosition = position[0]
+            xPosition = position[1]
+
+            originalImage[yPosition:yPosition + card.shape[0],
+            xPosition:xPosition + card.shape[1]] = card
+
+         # Player 2
+
 
     return originalImage
 
@@ -258,7 +275,7 @@ def drawPossibleActions(possibleActions, cards, passCard):
     return images
 
 
-def renderCurrentDataset(expName, highLevelActions):
+def renderCurrentDataset(expName, player1AllowedActions, roles):
 
     # dataSetDirectory = staticfiles_storage.path(expName)
     dataSetDirectory = settings.BASE_DIR+settings.STATIC_URL+expName
@@ -281,7 +298,7 @@ def renderCurrentDataset(expName, highLevelActions):
     # p4Cards = getPlayerCards(playerHand[3], cards, blackCard, backCard, actionType, False)
 
     # Draw the board
-    boardImage = getBoard(board, cards, roleCards, passCard, actionType, playerStatus)
+    boardImage = getBoard(board, cards, roleCards, passCard, actionType, playerStatus, roles)
 
     # #Draw the highlevel Actions
     # if len(highLevelActions) > 0:

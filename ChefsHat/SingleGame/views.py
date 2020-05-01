@@ -27,6 +27,8 @@ def startGame(request):
     currentGame = request.session.get('CHGameDirectory', False)["currentGame"]
     gameStyle = request.session.get('CHGameDirectory', False)["gameStyle"]
     avatars = request.session.get('CHGameDirectory', False)["avatars"]
+    playerRole = request.session.get('CHGameDirectory', False)["playerRole"]
+
     #deal cards
     startingPlayer = dealCards(expName)
 
@@ -44,26 +46,30 @@ def startGame(request):
     oponentsAction = not playerTurn == 0
 
     # Render dataset
-    player0Cards, player1Cards, player2Cards, player3Cards = renderCurrentDataset(expName, player1AllowedActions)
+    player0Cards, player1Cards, player2Cards, player3Cards = renderCurrentDataset(expName, player1AllowedActions, playerRole)
     player1Cards = range(len(player1Cards))
     player2Cards = range(len(player2Cards))
     player3Cards = range(len(player3Cards))
-
-
-    # import sys
-    # print("---------", file=sys.stderr)
-    # print("Cards:" + str(len(currentCardsHand)), file=sys.stderr)
-    # print("Cards:" + str(currentCardsHand), file=sys.stderr)
 
     #Create the possible actions
     player0CardsIndex = range(len(player0Cards))
 
     player0Cards = zip(player0CardsIndex, player0Cards)
 
+
+    #AvatarRoles
+    avatarRoles = []
+    avatarDirectories = ["symbolChef.png", "symbolSChef.png","symbolWait.png","symbolDish.png"]
+    if len(playerRole) > 0:
+        for pIndex in playerRole:
+            avatarRoles.append("/static/images/"+avatarDirectories[pIndex])
+
+
+    hasAvatarRole = len(avatarRoles)>0
     #Update session
     session = {'directory': expName, "playerTurn":playerTurn, "playerNames": agentNames, "pointsScore": pointsScore,
                "currentGame": currentGame, "firstAction":True, "currentRound": gameRound, "lastPlayer":0, "gameStyle":gameStyle,
-               "avatars": avatars}
+               "avatars": avatars, "playerRole": playerRole, "avatarRoles":avatarRoles, "nextPlayer":0}
 
     request.session['CHGameDirectory'] = session
 
@@ -72,7 +78,7 @@ def startGame(request):
                 "currentGame":currentGame, "pointsScore": pointsScore, "oponentsAction":oponentsAction,
                "playerAction" : playerAction, "player1Cards":player1Cards, "player2Cards":player2Cards,
                "player3Cards":player3Cards, "player0Cards":player0Cards, "ErrorMessage":"", "hasErrorMessage":False,
-               "avatars":avatars}
+               "avatars":avatars, "hasAvatarRole":hasAvatarRole, "avatarRoles":avatarRoles}
 
 
     return render(request, 'SingleGame/game.html', context)
@@ -124,9 +130,11 @@ def startNewExperiment(request):
         if a == "Random":
             avatars.append("/static/images/randomAgent.png")
         elif a == "A2C":
-            avatars.append("/static/images/DQLAgent.png")
+            avatars.append("/static/images/A2CAgent.png")
         elif a == "PPO":
              avatars.append("/static/images/PPOAgent.png")
+        elif a == "DQL":
+            avatars.append("/static/images/DQLAgent.png")
 
 
     agentNames =  [user.name, op1+"_1", op2+"_2", op3+"_3"]
@@ -142,13 +150,15 @@ def startNewExperiment(request):
             for a in range(4):
                humanScore.append("0/15")
 
+    playerRoles = []
+
 
     context = {"playerNames": agentNames, "currentGame": int(currentGame), "nextGameGame": int(currentGame) + 1,
                "humanScore": humanScore, "gameOver":False}
 
     session = {'directory': expName, "playerTurn": "", "playerNames": agentNames, "pointsScore": points,
                "currentGame": currentGame, "firstAction": "", "currentRound": "",
-               "lastPlayer": "", "gameStyle": gameStyle, "avatars":avatars}
+               "lastPlayer": "", "gameStyle": gameStyle, "avatars":avatars, "playerRole": [], "playerRole":playerRoles}
 
     request.session['CHGameDirectory'] = session
 
@@ -166,44 +176,50 @@ def doAction(request):
     lastPlayer = request.session.get('CHGameDirectory', False)["lastPlayer"]
     gameStyle = request.session.get('CHGameDirectory', False)["gameStyle"]
     avatars = request.session.get('CHGameDirectory', False)["avatars"]
+    playerRole = request.session.get('CHGameDirectory', False)["playerRole"]
+    avatarRoles = request.session.get('CHGameDirectory', False)["avatarRoles"]
+    nextPlayer = request.session.get('CHGameDirectory', False)["nextPlayer"]
 
     pizzaForm = request.POST.get('pizzaButton', False)
     player = int(request.POST.get('playerID', False))
+    nextAction = request.POST.get('nextActionID', False)
 
     gameFinished = False
+    simulateNextActions = False
     error = ""
+
+    if nextAction == "nextAction":
+        score = simulateActions(expName, nextPlayer, firstAction, currentRound, agentNames)
+        gameFinished = True
+
     if pizzaForm == "pizza":
         newRound = doPizza(expName, currentRound)
         pizza = False
         nextPlayer = lastPlayer
-    else:
+    elif not gameFinished:
         if player == 0:
             action = request.POST.getlist('selectedAction', [])
-
+            isHuman = True
         else:
-            possibleActions, player1AllowedActions, highLevelActions = getPossibleActions(expName=expName,
-                                                                                          player=player,
-                                                                                          firstAction=firstAction)
-            action = doRandomAction(possibleActions)
-            action = highLevelActions[numpy.argmax(action)]
+            isHuman = False
+            action = []
 
-        gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound)
+        gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=isHuman)
 
         if hasPlayerFinished and player == 0:
-            score = simulateActions(expName, nextPlayer, firstAction, currentRound)
-            gameFinished = True
-
-
+            simulateNextActions = True
 
     hasErrorMessage = False
     if not error == "":
         hasErrorMessage = True
 
     if gameFinished:
-
+        #Roles and points
+        playerRoles = [0, 0 ,0 ,0]
         for playerIndex in range(4):
             points = 3 - score.index(playerIndex)
             pointsScore[playerIndex] += points
+            playerRoles[score.index(playerIndex)] = playerIndex
 
         gameOver = False
         if gameStyle =="15Points":
@@ -215,12 +231,18 @@ def doAction(request):
         else:
             gameOver = True
 
-
         humanScore = []
         for a in pointsScore:
             humanScore.append(str(a)+"/15")
 
         currentGame = currentGame + 1
+
+        import sys
+        print("---------", file=sys.stderr)
+        print("playerRoles:" + str(playerRoles), file=sys.stderr)
+        print("points:" + str(points), file=sys.stderr)
+        print("gameOver:" + str(gameOver), file=sys.stderr)
+        print("gameStyle:" + str(gameStyle), file=sys.stderr)
 
         context = {"playerNames": agentNames, "currentGame": int(currentGame), "nextGameGame": int(currentGame) + 1,
                    "humanScore": humanScore, "gameOver":gameOver}
@@ -229,7 +251,7 @@ def doAction(request):
                    "pointsScore": pointsScore,
                    "currentGame": currentGame, "firstAction": firstAction, "currentRound": newRound,
                    "lastPlayer": lastPlayer, "gameStyle": gameStyle,
-                   "avatars": avatars}
+                   "avatars": avatars, "playerRole": playerRoles, "avatarRoles":avatarRoles, "nextPlayer":nextPlayer}
 
         request.session['CHGameDirectory'] = session
 
@@ -256,7 +278,7 @@ def doAction(request):
         oponentsAction = False
 
     # Render dataset
-    player0Cards, player1Cards, player2Cards, player3Cards = renderCurrentDataset(expName, player1AllowedActions)
+    player0Cards, player1Cards, player2Cards, player3Cards = renderCurrentDataset(expName, player1AllowedActions, playerRole)
 
     player1Cards = range(len(player1Cards))
     player2Cards = range(len(player2Cards))
@@ -267,9 +289,13 @@ def doAction(request):
 
     player0Cards = zip(player0CardsIndex, player0Cards)
 
+    #Has Avatar Roles
+    hasAvatarRole = len(avatarRoles) > 0
+
+
     session = {'directory': expName, "playerTurn":nextPlayer, "playerNames": agentNames, "pointsScore": pointsScore,
                "currentGame": currentGame, "firstAction":firstAction, "currentRound": newRound, "lastPlayer":lastPlayer, "gameStyle": gameStyle,
-               "avatars":avatars}
+               "avatars":avatars, "playerRole":playerRole, "avatarRoles":avatarRoles, "nextPlayer":nextPlayer}
 
     request.session['CHGameDirectory'] = session
 
@@ -280,7 +306,7 @@ def doAction(request):
                "playerAction":playerAction, "isPizza": pizza,
                "player1Cards":player1Cards, "player2Cards": player2Cards,
                "player3Cards": player3Cards, "player0Cards": player0Cards, "ErrorMessage":error, "hasErrorMessage":hasErrorMessage,
-               "avatars":avatars}
+               "avatars":avatars, "hasAvatarRole":hasAvatarRole, "avatarRoles":avatarRoles, "simulateNextActions":simulateNextActions}
 
 
     return render(request, 'SingleGame/game.html', context)
