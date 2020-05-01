@@ -182,36 +182,47 @@ def doAction(request):
 
     pizzaForm = request.POST.get('pizzaButton', False)
     player = int(request.POST.get('playerID', False))
-    nextAction = request.POST.get('nextActionID', False)
+    nextAction = request.POST.get('nextActionButton', False)
 
     gameFinished = False
     simulateNextActions = False
     error = ""
 
+    import sys
+    print("---------", file=sys.stderr)
+    print("nextAction:" + str(nextAction), file=sys.stderr)
+    print("agentNames:" + str(agentNames), file=sys.stderr)
+    print("---------", file=sys.stderr)
+
     if nextAction == "nextAction":
         score = simulateActions(expName, nextPlayer, firstAction, currentRound, agentNames)
         gameFinished = True
+        print("Simulating actions:" + str(nextAction), file=sys.stderr)
+        print("score:" + str(score),  file=sys.stderr)
+        print("---------", file=sys.stderr)
 
-    if pizzaForm == "pizza":
-        newRound = doPizza(expName, currentRound)
-        pizza = False
-        nextPlayer = lastPlayer
-    elif not gameFinished:
-        if player == 0:
-            action = request.POST.getlist('selectedAction', [])
-            isHuman = True
-        else:
-            isHuman = False
-            action = []
+    if not gameFinished:
+        if pizzaForm == "pizza":
+            newRound = doPizza(expName, currentRound)
+            pizza = False
+            nextPlayer = lastPlayer
 
-        gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=isHuman)
+        elif not gameFinished:
+            if player == 0:
+                action = request.POST.getlist('selectedAction', [])
+                isHuman = True
+            else:
+                isHuman = False
+                action = []
 
-        if hasPlayerFinished and player == 0:
-            simulateNextActions = True
+            gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=isHuman)
 
-    hasErrorMessage = False
-    if not error == "":
-        hasErrorMessage = True
+            if hasPlayerFinished and player == 0:
+                simulateNextActions = True
+
+        hasErrorMessage = False
+        if not error == "":
+            hasErrorMessage = True
 
     if gameFinished:
         #Roles and points

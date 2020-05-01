@@ -315,7 +315,6 @@ font-size: 16px;
        <form action="{% url 'SingleGame:doAction'%}" name="nextActionForm" method="post">
             {% csrf_token %}
            The next actions will be simulated, wait a second!
-        <input id="nextActionID" name="nextActionID" type="hidden" value="nextAction">
         <input id="nextActionButton" name="nextActionButton" type="hidden" value="nextAction">
 <!--        <input type="submit" value="Pizza!">-->
         </form>

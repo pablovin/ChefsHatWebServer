@@ -237,11 +237,11 @@ def doPlayerAction(expName, player, action, firstAction, currentRound, agentName
         action = doAgentAction(possibleActions, stateVector, agentNames[player])
         actionIndex = numpy.argmax(action)
 
-        import sys
-        print("---------", file=sys.stderr)
-        print("Player:" + str(player), file=sys.stderr)
-        print("action:" + str(action), file=sys.stderr)
-        print("actionIndex:" + str(actionIndex), file=sys.stderr)
+        # import sys
+        # print("---------", file=sys.stderr)
+        # print("Player:" + str(player), file=sys.stderr)
+        # print("action:" + str(action), file=sys.stderr)
+        # print("actionIndex:" + str(actionIndex), file=sys.stderr)
 
     loss = []
     totalActions = 1
@@ -434,7 +434,12 @@ def doAgentAction(possibleActions, state, agent):
                 prob * K.log(prob + 1e-10)))
 
 
+
     agentName = agent.split("_")[0]
+
+    # import sys
+    # print("---------", file=sys.stderr)
+    # print("Agent:" + str(agent), file=sys.stderr)
 
     if agentName == "DQL":
         modelDirectory = settings.BASE_DIR + settings.STATIC_URL+"/trainedModels/actor_DQL.hd5"
@@ -457,13 +462,13 @@ def doAgentAction(possibleActions, state, agent):
     #     a = numpy.zeros(200)
     #     a[199]=1
 
-    import sys
-    print("---------", file=sys.stderr)
-    print("Agent:" + str(agent), file=sys.stderr)
-    print ("possibleActions2:" + str(possibleActionsVector), file=sys.stderr )
-    print ("stateVector:" + str(stateVector), file=sys.stderr )
-    print("a:" + str(a), file=sys.stderr)
-    print("len(a):" + str(len(a)), file=sys.stderr)
+    # import sys
+    # print("---------", file=sys.stderr)
+    # print("Agent:" + str(agent), file=sys.stderr)
+    # print ("possibleActions2:" + str(possibleActionsVector), file=sys.stderr )
+    # print ("stateVector:" + str(stateVector), file=sys.stderr )
+    # print("a:" + str(a), file=sys.stderr)
+    # print("len(a):" + str(len(a)), file=sys.stderr)
 
 
 
