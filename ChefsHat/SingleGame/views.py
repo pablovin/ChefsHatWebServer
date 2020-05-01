@@ -195,12 +195,12 @@ def doAction(request):
     print("agentNames:" + str(agentNames), file=sys.stderr)
     print("---------", file=sys.stderr)
 
-    # if nextAction=="nextAction":
-    #     print("Simulating actions:" + str(nextAction), file=sys.stderr)
-    #     score = simulateActions(expName, nextPlayer, firstAction, currentRound, agentNames)
-    #     gameFinished = True
-    #     print("score:" + str(score),  file=sys.stderr)
-    #     print("---------", file=sys.stderr)
+    if nextAction=="nextAction":
+        print("Simulating actions:" + str(nextAction), file=sys.stderr)
+        score = simulateActions(expName, nextPlayer, firstAction, currentRound, agentNames)
+        gameFinished = True
+        print("score:" + str(score),  file=sys.stderr)
+        print("---------", file=sys.stderr)
 
     if not gameFinished:
         if pizzaForm == "pizza":
@@ -219,8 +219,8 @@ def doAction(request):
             gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=isHuman)
 
             if hasPlayerFinished and player == 0:
-                score = simulateActions(expName, nextPlayer, firstAction, currentRound, agentNames)
                 simulateNextActions = True
+
 
         hasErrorMessage = False
         if not error == "":
@@ -249,6 +249,9 @@ def doAction(request):
             humanScore.append(str(a)+"/15")
 
         currentGame = currentGame + 1
+
+        newRound = 0
+
 
         import sys
         print("---------", file=sys.stderr)

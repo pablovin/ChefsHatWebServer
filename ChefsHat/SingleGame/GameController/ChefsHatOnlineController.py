@@ -160,7 +160,17 @@ def simulateActions(expName, player, firstAction, currentRound, agentNames):
 
     while not gameFinished:
         action = numpy.zeros(200)
+        print("-----------", file=sys.stderr)
+        print("Next player:" + str(player), file=sys.stderr)
+        print("round:" + str(currentRound), file=sys.stderr)
+        print("agentNames:" + str(agentNames), file=sys.stderr)
+        print("player Name:" + str(agentNames[player]), file=sys.stderr)
+
         gameFinished, hasPlayerFinished, nextPlayer, newRound, lastPlayer, pizza, error, score = doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=False)
+
+        print("Player Finished:" + str(hasPlayerFinished), file=sys.stderr)
+        print("Pizza:" + str(pizza), file=sys.stderr)
+
         if pizza:
             currentRound = doPizza(expName, currentRound)
             player = lastPlayer
@@ -169,13 +179,6 @@ def simulateActions(expName, player, firstAction, currentRound, agentNames):
 
         firstAction = False
 
-        #
-        # print("-----------", file=sys.stderr)
-        # print("Next player:" + str(player), file=sys.stderr)
-        # print("player1AllowedActions:" + str(len(player1AllowedActions)), file=sys.stderr)
-        # print("newRound:" + str(newRound), file=sys.stderr)
-
-
     return score
 
 
@@ -183,11 +186,10 @@ def simulateActions(expName, player, firstAction, currentRound, agentNames):
 def doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=True):
 
 
-
     dataSetDirectory = settings.BASE_DIR + settings.STATIC_URL + expName
 
     print("---------", file=sys.stderr)
-    print("dataSetDirectory:" + str(dataSetDirectory), file=sys.stderr)
+    print("dataSetDirectory:" + str(dataSetDirectory + "/Dataset.pkl"), file=sys.stderr)
     print("---------", file=sys.stderr)
 
     currentDataset = pd.read_pickle(dataSetDirectory + "/Dataset.pkl")
@@ -264,6 +266,7 @@ def doPlayerAction(expName, player, action, firstAction, currentRound, agentName
         reward = -0.01
         actionComplete = (actionDiscard, cardsDiscarded)
 
+
     if numpy.array(playerHand).sum() == 0: # If all the cards of the player hands are gone, he wins the match, maximum reward
 
             score = score.tolist()
@@ -278,12 +281,34 @@ def doPlayerAction(expName, player, action, firstAction, currentRound, agentName
 
             actionComplete = (actionFinish, cardsDiscarded)
 
+    playersHand[player] = playerHand
+    playerHand = numpy.array(playerHand)
+
+    hasPlayerFinished = playerHand.sum() == 0
+
+    #Simulate player 1 finishing in the first round
+
+    # if player == 0:
+    #     actionComplete = (actionFinish, cardsDiscarded)
+    #     score = score.tolist()
+    #     if not player in score:
+    #         score.append(player)
+    #
+    #     index = score.index(player)
+    #     if index == 0:
+    #         reward = 1
+    #     else:
+    #         reward = -0.1
+    #     hasPlayerFinished = True
+    #     playersHand[player] = numpy.zeros(17)
+
+
     if len(playerStatus) <= player:
         playerStatus.append(actionComplete)
     else:
         playerStatus[player] = actionComplete
 
-    playersHand[player] = playerHand
+
     dsManager.doActionAction(gameNumber, player, newRound,
                                                     actionComplete, board,
                                                     0, reward,
@@ -293,8 +318,6 @@ def doPlayerAction(expName, player, action, firstAction, currentRound, agentName
 
     dsManager.saveFile()
 
-    playerHand = numpy.array(playerHand)
-    hasPlayerFinished = playerHand.sum() == 0
     gameFinished = hasGameFinished(playersHand)
 
     nextPlayer = player + 1
@@ -303,16 +326,23 @@ def doPlayerAction(expName, player, action, firstAction, currentRound, agentName
 
     lastPlayer = -1
     pizza = False
+
     if not gameFinished:
         if len(playerStatus) == 4 and len(playerStatus[nextPlayer]) > 0:
-            while playerStatus[nextPlayer][0] == actionFinish or playerStatus[nextPlayer][0] == actionPass:
-                nextPlayer = nextPlayer + 1
-                if nextPlayer == 4:
-                    nextPlayer = 0
+
+                for np in range(4):
+                    if playerStatus[nextPlayer][0] == actionFinish or playerStatus[nextPlayer][0] == actionPass:
+                        nextPlayer = nextPlayer + 1
+                        if nextPlayer == 4:
+                            nextPlayer = 0
+
+                # while playerStatus[nextPlayer][0] == actionFinish:
+                #     nextPlayer = nextPlayer + 1
+                #     if nextPlayer == 4:
+                #         nextPlayer = 0
 
         playerFinishedCounter = 0
         lastPlayer = player
-
 
         for indexStatus, status in enumerate(playerStatus):
 
@@ -365,7 +395,9 @@ def doPizza(expName, currentRound):
 def hasGameFinished(playersHand):
 
   for i in range(len(playersHand)):
-      # print ("PLayer:" + str(i) + " : ", str(numpy.array(self.playersHand[i]).sum()))
+      # print("-----------", file=sys.stderr)
+      # print("playersHand[i]:" + str(playersHand[i]), file=sys.stderr)
+      # print("numpy.array(playersHand[i]).sum():" + str(numpy.array(playersHand[i]).sum()), file=sys.stderr)
       if numpy.array(playersHand[i]).sum() > 0:
           return False
 
@@ -440,7 +472,6 @@ def doAgentAction(possibleActions, state, agent):
         return -K.mean(K.minimum(r * advantage, K.clip(r, min_value=1 - LOSS_CLIPPING,
                                                        max_value=1 + LOSS_CLIPPING) * advantage) + ENTROPY_LOSS * -(
                 prob * K.log(prob + 1e-10)))
-
 
 
     agentName = agent.split("_")[0]
