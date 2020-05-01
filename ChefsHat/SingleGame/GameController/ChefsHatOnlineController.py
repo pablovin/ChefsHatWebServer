@@ -101,7 +101,7 @@ def validatePlayerAction(actionList, validActions):
     error = ""
     correctAction = ""
     if len(actionList)== 0:
-        error= "Please select some igredient cards or the pass card!"
+        error= "Please select some ingredient cards or the pass card!"
 
     elif actionList[0] == "pass":
         correctAction = "pass"
@@ -145,7 +145,7 @@ def validatePlayerAction(actionList, validActions):
 
                 # print(" -- correctAction:" + str(correctAction), file=sys.stderr)
                 if not correctAction in validActions:
-                    error = "Invalid move! You cannot discard these igredients right now!"
+                    error = "Invalid move! You cannot discard these ingredients right now!"
 
     return correctAction, error
 
@@ -181,7 +181,15 @@ def simulateActions(expName, player, firstAction, currentRound, agentNames):
 
 
 def doPlayerAction(expName, player, action, firstAction, currentRound, agentNames, isHuman=True):
+
+
+
     dataSetDirectory = settings.BASE_DIR + settings.STATIC_URL + expName
+
+    print("---------", file=sys.stderr)
+    print("dataSetDirectory:" + str(dataSetDirectory), file=sys.stderr)
+    print("---------", file=sys.stderr)
+
     currentDataset = pd.read_pickle(dataSetDirectory + "/Dataset.pkl")
     dsManager = DataSetManager(dataSetDirectory=dataSetDirectory)
     dsManager._currentDataSetFile = dataSetDirectory + "/Dataset.pkl"
