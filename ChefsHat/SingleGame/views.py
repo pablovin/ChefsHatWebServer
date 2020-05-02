@@ -21,13 +21,17 @@ def index(request):
 
 def startGame(request):
 
-    expName = request.session.get('CHGameDirectory', None)["directory"]
+    # expName = request.session.get('CHGameDirectory', None)["directory"]
     agentNames = request.session.get('CHGameDirectory', False)["playerNames"]
     pointsScore = request.session.get('CHGameDirectory', False)["pointsScore"]
     currentGame = request.session.get('CHGameDirectory', False)["currentGame"]
     gameStyle = request.session.get('CHGameDirectory', False)["gameStyle"]
     avatars = request.session.get('CHGameDirectory', False)["avatars"]
     playerRole = request.session.get('CHGameDirectory', False)["playerRole"]
+
+
+    #Start New Game
+    expName = startNewGame(agentNames, gameStyle, currentGame)
 
     #deal cards
     startingPlayer = dealCards(expName)
@@ -140,7 +144,7 @@ def startNewExperiment(request):
     agentNames =  [user.name, op1+"_1", op2+"_2", op3+"_3"]
     currentGame = 0
 
-    expName = startNewGame(agentNames, gameStyle)
+    # expName = startNewGame(agentNames, gameStyle, currentGame)
 
     points = [0,0,0,0]
     humanScore = []
@@ -156,7 +160,7 @@ def startNewExperiment(request):
     context = {"playerNames": agentNames, "currentGame": int(currentGame), "nextGameGame": int(currentGame) + 1,
                "humanScore": humanScore, "gameOver":False}
 
-    session = {'directory': expName, "playerTurn": "", "playerNames": agentNames, "pointsScore": points,
+    session = {'directory': "", "playerTurn": "", "playerNames": agentNames, "pointsScore": points,
                "currentGame": currentGame, "firstAction": "", "currentRound": "",
                "lastPlayer": "", "gameStyle": gameStyle, "avatars":avatars, "playerRole": [], "playerRole":playerRoles}
 

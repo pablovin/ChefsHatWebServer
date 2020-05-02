@@ -22,7 +22,7 @@ from keras.models import load_model
 
 from SingleGame.KEF.DataSetManager import DataSetManager
 
-def startNewGame(agentsNames, gameStyle):
+def startNewGame(agentsNames, gameStyle, gameNumber):
 
     expName = str(gameStyle)+"_"+str(agentsNames).replace(" ","").replace("[","_").replace("]","_").replace(",","_").replace("`","_")+ \
               "_" + str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_s")
@@ -36,7 +36,7 @@ def startNewGame(agentsNames, gameStyle):
 
     dsManager = DataSetManager (dataSetDirectory=dirPath)
     dsManager.startNewExperiment()
-    dsManager.startNewGame(0, agentsNames)
+    dsManager.startNewGame(gameNumber, agentsNames)
     dsManager.saveFile()
 
     return expName
