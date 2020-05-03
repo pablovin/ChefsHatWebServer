@@ -6,7 +6,7 @@ from .models import User, Game, Actions
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.conf import settings
 
-from SingleGame.GameController.ChefsHatOnlineController import dealCards, startNewGame, getPossibleActions, doPlayerAction, doRandomAction, doPizza, simulateActions, createNewExperiment
+from SingleGame.GameController.ChefsHatOnlineController import dealCards, newGame, getPossibleActions, doPlayerAction, doRandomAction, doPizza, simulateActions, createNewExperiment
 from SingleGame.GameController.ChefsHatOnlineRenderer import renderCurrentDataset
 
 import numpy
@@ -29,12 +29,16 @@ def startGame(request):
     avatars = request.session.get('CHGameDirectory', False)["avatars"]
     playerRole = request.session.get('CHGameDirectory', False)["playerRole"]
 
+    #Start New Game7
+    import sys
+    print("---------", file=sys.stderr)
+    print("Starting New game :" + str(currentGame), file=sys.stderr)
 
-    #Start New Game
-    startNewGame(expName, agentNames, currentGame)
+
+    newGame(expName, agentNames, currentGame)
 
     #deal cards
-    startingPlayer = dealCards(expName)
+    startingPlayer = dealCards(expName, currentGame)
 
     #Get possible actions
     player1AllowedActions = []
@@ -225,6 +229,7 @@ def doAction(request):
             if hasPlayerFinished and player == 0:
                 simulateNextActions = True
                 score = simulateActions(expName, nextPlayer, firstAction, currentRound, agentNames)
+                gameFinished = True
 
 
         hasErrorMessage = False
@@ -264,6 +269,8 @@ def doAction(request):
         print("points:" + str(pointsScore), file=sys.stderr)
         print("gameOver:" + str(gameOver), file=sys.stderr)
         print("gameStyle:" + str(gameStyle), file=sys.stderr)
+        print("currentGame:" + str(currentGame), file=sys.stderr)
+
 
         context = {"playerNames": agentNames, "currentGame": int(currentGame), "nextGameGame": int(currentGame) + 1,
                    "humanScore": humanScore, "gameOver":gameOver}

@@ -42,8 +42,7 @@ def createNewExperiment(agentsNames, gameStyle):
 
     return expName
 
-def startNewGame(expName, agentsNames, gameNumber):
-
+def newGame(expName, agentsNames, gameNumber):
 
     dataSetDirectory = settings.BASE_DIR + settings.STATIC_URL + expName
 
@@ -55,7 +54,7 @@ def startNewGame(expName, agentsNames, gameNumber):
     dsManager.startNewGame(gameNumber, agentsNames)
     dsManager.saveFile()
 
-def dealCards(expName):
+def dealCards(expName, gameNumber):
 
     # Create deck
     maxCardNumber = 11
@@ -99,7 +98,7 @@ def dealCards(expName):
     dsManager._currentDataSetFile = dataSetDirectory+"/Dataset.pkl"
     dsManager.dataFrame = readFile
 
-    dsManager.dealAction(playersHand=playersHand,game=0)
+    dsManager.dealAction(playersHand=playersHand,game=gameNumber)
     dsManager.saveFile()
 
     return startingPlayer
