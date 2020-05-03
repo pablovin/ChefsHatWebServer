@@ -22,24 +22,38 @@ from keras.models import load_model
 
 from SingleGame.KEF.DataSetManager import DataSetManager
 
-def startNewGame(agentsNames, gameStyle, gameNumber):
+def createNewExperiment(agentsNames, gameStyle):
 
-    expName = str(gameStyle)+"_"+str(agentsNames).replace(" ","").replace("[","_").replace("]","_").replace(",","_").replace("`","_")+ \
-              "_" + str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_s")
+    expName = str(gameStyle) + "_" + str(agentsNames).replace(" ", "").replace("[", "_").replace("]", "_").replace(",",
+                                                                                                                   "_").replace(
+        "`", "_") + \
+              "_" + str(datetime.datetime.now()).replace(" ", "_").replace(":", "_").replace(".", "_s")
 
     # expName ="Testing"
 
     # dirPath = staticfiles_storage.path(expName)
-    dirPath = settings.BASE_DIR+settings.STATIC_URL+expName
+    dirPath = settings.BASE_DIR + settings.STATIC_URL + expName
 
     os.mkdir(dirPath)
 
-    dsManager = DataSetManager (dataSetDirectory=dirPath)
+    dsManager = DataSetManager(dataSetDirectory=dirPath)
     dsManager.startNewExperiment()
-    dsManager.startNewGame(gameNumber, agentsNames)
     dsManager.saveFile()
 
     return expName
+
+def startNewGame(expName, agentsNames, gameNumber):
+
+
+    dataSetDirectory = settings.BASE_DIR + settings.STATIC_URL + expName
+
+    currentDataset = pd.read_pickle(dataSetDirectory + "/Dataset.pkl")
+    dsManager = DataSetManager(dataSetDirectory=dataSetDirectory)
+    dsManager._currentDataSetFile = dataSetDirectory + "/Dataset.pkl"
+    dsManager.dataFrame = currentDataset
+
+    dsManager.startNewGame(gameNumber, agentsNames)
+    dsManager.saveFile()
 
 def dealCards(expName):
 
@@ -309,12 +323,13 @@ def doPlayerAction(expName, player, action, firstAction, currentRound, agentName
         playerStatus[player] = actionComplete
 
 
-    dsManager.doActionAction(gameNumber, player, newRound,
-                                                    actionComplete, board,
-                                                    0, reward,
-                                                    playersHand, roles,
-                                                    score, playerStatus,
-                                                    action, loss, totalActions, possibleActions)
+    if not(actionComplete[0]  == actionFinish and rounds > currentRound):
+        dsManager.doActionAction(gameNumber, player, newRound,
+                                                        actionComplete, board,
+                                                        0, reward,
+                                                        playersHand, roles,
+                                                        score, playerStatus,
+                                                        action, loss, totalActions, possibleActions)
 
     dsManager.saveFile()
 

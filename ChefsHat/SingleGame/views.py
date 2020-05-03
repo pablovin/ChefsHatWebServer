@@ -6,7 +6,7 @@ from .models import User, Game, Actions
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.conf import settings
 
-from SingleGame.GameController.ChefsHatOnlineController import dealCards, startNewGame, getPossibleActions, doPlayerAction, doRandomAction, doPizza, simulateActions
+from SingleGame.GameController.ChefsHatOnlineController import dealCards, startNewGame, getPossibleActions, doPlayerAction, doRandomAction, doPizza, simulateActions, createNewExperiment
 from SingleGame.GameController.ChefsHatOnlineRenderer import renderCurrentDataset
 
 import numpy
@@ -21,7 +21,7 @@ def index(request):
 
 def startGame(request):
 
-    # expName = request.session.get('CHGameDirectory', None)["directory"]
+    expName = request.session.get('CHGameDirectory', None)["directory"]
     agentNames = request.session.get('CHGameDirectory', False)["playerNames"]
     pointsScore = request.session.get('CHGameDirectory', False)["pointsScore"]
     currentGame = request.session.get('CHGameDirectory', False)["currentGame"]
@@ -31,7 +31,7 @@ def startGame(request):
 
 
     #Start New Game
-    expName = startNewGame(agentNames, gameStyle, currentGame)
+    startNewGame(expName, agentNames, currentGame)
 
     #deal cards
     startingPlayer = dealCards(expName)
@@ -144,7 +144,7 @@ def startNewExperiment(request):
     agentNames =  [user.name, op1+"_1", op2+"_2", op3+"_3"]
     currentGame = 0
 
-    # expName = startNewGame(agentNames, gameStyle, currentGame)
+    expName = createNewExperiment(agentNames, gameStyle)
 
     points = [0,0,0,0]
     humanScore = []
@@ -160,7 +160,7 @@ def startNewExperiment(request):
     context = {"playerNames": agentNames, "currentGame": int(currentGame), "nextGameGame": int(currentGame) + 1,
                "humanScore": humanScore, "gameOver":False}
 
-    session = {'directory': "", "playerTurn": "", "playerNames": agentNames, "pointsScore": points,
+    session = {'directory': expName, "playerTurn": "", "playerNames": agentNames, "pointsScore": points,
                "currentGame": currentGame, "firstAction": "", "currentRound": "",
                "lastPlayer": "", "gameStyle": gameStyle, "avatars":avatars, "playerRole": [], "playerRole":playerRoles}
 
