@@ -143,6 +143,8 @@ def startNewExperiment(request):
              avatars.append("/static/images/PPOAgent.png")
         elif a == "DQL":
             avatars.append("/static/images/DQLAgent.png")
+        elif a == "DJ":
+            avatars.append("/static/images/DJAgent.png")
 
 
     agentNames =  [user.name, op1+"_1", op2+"_2", op3+"_3"]

@@ -279,7 +279,6 @@ def doPlayerAction(expName, player, action, firstAction, currentRound, agentName
         reward = -0.01
         actionComplete = (actionDiscard, cardsDiscarded)
 
-
     if numpy.array(playerHand).sum() == 0: # If all the cards of the player hands are gone, he wins the match, maximum reward
 
             score = score.tolist()
@@ -490,19 +489,22 @@ def doAgentAction(possibleActions, state, agent):
 
     agentName = agent.split("_")[0]
 
-    # import sys
-    # print("---------", file=sys.stderr)
-    # print("Agent:" + str(agent), file=sys.stderr)
-
     if agentName == "DQL":
         modelDirectory = settings.BASE_DIR + settings.STATIC_URL+"/trainedModels/actor_DQL.hd5"
     elif agentName == "A2C":
         modelDirectory = settings.BASE_DIR + settings.STATIC_URL+"/trainedModels/actor_A2C.hd5"
     elif agentName == "PPO":
         modelDirectory = settings.BASE_DIR + settings.STATIC_URL+"/trainedModels/actor_PPO.hd5"
-
+    elif agentName == "DJ":
+        modelDirectory = settings.BASE_DIR + settings.STATIC_URL + "/trainedModels/actor_DJ.hd5"
     elif agentName == "Random":
         return doRandomAction(possibleActions)
+
+
+    import sys
+    print("---------", file=sys.stderr)
+    print("Agent:" + str(agentName), file=sys.stderr)
+    print("Model Directory:" + str(modelDirectory), file=sys.stderr)
 
     actor = load_model(modelDirectory, custom_objects={'loss':loss})
 
