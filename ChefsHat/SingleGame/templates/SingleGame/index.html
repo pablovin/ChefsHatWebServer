@@ -1,70 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Chef's Hat Card Game</title>
-</head>
+{% extends 'base.html' %}
 
-<style>
-    body, html {
-  height: 100%;
-}
+{% load i18n %}
 
-body {
-  /* The image used */
-  background-image: url( "/static/images/background.png");
-}
+{% block page_title %}
+    Chef's Hat Card Game
+{% endblock %}
 
-.centered {
-position: fixed;
-  top: 45%;
-  left: 45%;
-  /* bring your own prefixes */
-  transform: translate(-50%, -50%);
-}
+{% block page_css %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
+{% endblock %}
 
-input[type=button], input[type=submit], input[type=reset] {
-  background-color: #48cc63;
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-decoration: none;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-
-input[type=text] {
-  border: 2px solid #48cc63;
-  border-radius: 4px;
-  background-color: #ffffff;
-  color: black;
-  margin: 4px 2px;
-  padding: 16px 32px;
-}
-
-</style>
-<body>
+{% block body %}
 
 
-      <div class="centered">
+    <div class="wrapper">
 
-      <img align="center" src="/static/images/indexImage.png" alt="My image"><br>
-      <h2 align="center"> Please identify yourself.</h2>
-<form action="{% url 'SingleGame:selectAdversaries'%}" method="post">
-{% csrf_token %}
-    <p align="center"><input type="text" placeholder="Your name.." name="userName" id ="userNameID"> <br>
-<input type="submit" value="Start Game">
-    </p>
-    <p> Your name will identify you in all of our games. <br>Please choose a unique name, and use it again <br>if you play another game.</p>
-</form>
-  </div>
+        <div class="section section--header">
+            <div class="container container--img">
+                 <img class="img img--chef_hat" src="{% static 'images/chefHat.png' %}" alt="Chef's hat" />
 
 
+            </div>
+            <div class="container container--title">
+                <p class="text text--xxxl text--title">Chef's hat</p>
+            </div>
+        </div>
+        <div class="section section--content">
+            <div class="container container--intro">
+                <a href="{% url 'SingleGame:changeLanguage' language="en"%}"> <img class="img img--languages" src="{% static 'images/lang_eng.png' %}"> </a>
+                <a href="{% url 'SingleGame:changeLanguage' language="es"%}"> <img class="img img--languages" src="{% static 'images/lang_es.png' %}"> </a>
+<!--                <a href="{% url 'SingleGame:changeLanguage' language="de"%}"> <img class="img img&#45;&#45;languages" src="{% static 'images/lang_de.png' %}"> </a>-->
+                <a href="{% url 'SingleGame:changeLanguage' language="it"%}"> <img class="img img--languages" src="{% static 'images/lang_it.png' %}"> </a>
+                <a href="{% url 'SingleGame:changeLanguage' language="pt"%}"> <img class="img img--languages" src="{% static 'images/lang_pt.png' %}"> </a>
+
+            </div>
+        </div>
 
 
-
-
-
-
-</body>
-</html>
+    </div>
+{% endblock %}

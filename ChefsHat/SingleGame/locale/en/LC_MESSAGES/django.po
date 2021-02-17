@@ -1,0 +1,452 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-05 10:45+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: GameController/ChefsHatOnlineController.py:209
+msgid "error_SelectIgridient"
+msgstr "Please select some ingredient cards or the pass card!"
+
+#: GameController/ChefsHatOnlineController.py:217
+msgid "error_InvalidMove_Pass"
+msgstr "Invalid move! Pass card can not be together with other cards."
+
+#: GameController/ChefsHatOnlineController.py:237
+msgid "error_InvalidMove_OneIgridient"
+msgstr "Invalid move! You can only put one type of ingredient per round!"
+
+#: GameController/ChefsHatOnlineController.py:253
+msgid "error_InvalidMove_CannotDiscard"
+msgstr "Invalid move! You cannot discard these ingredients right now!"
+
+#: GameController/ChefsHatOnlineController.py:401
+msgid "error_Card_TwoCards"
+msgstr "Please select two cards of your choice!"
+
+#: GameController/ChefsHatOnlineController.py:405
+msgid "error_Card_OneCard"
+msgstr "Please select one card of your choice!"
+
+#: GameController/ChefsHatOnlineController.py:409
+msgid "error_Card_OneCard_Smallest"
+msgstr "Please select your card with the smallest face value!"
+
+#: GameController/ChefsHatOnlineController.py:416
+msgid "error_Card_SmallestCard"
+msgstr "You have to select your card with the smallest face value!"
+
+#: GameController/ChefsHatOnlineController.py:421
+msgid "error_Card_TwoCards_Smallest"
+msgstr "Please select your two cards with the smallest face values!"
+
+#: GameController/ChefsHatOnlineController.py:428
+msgid "error_Card_TwoSmallestCards"
+msgstr "You have to select your two cards with the smallest face values!"
+
+#: GameController/ChefsHatOnlineController.py:571
+msgid "error_Card_OnlySpecialAction"
+msgstr "Please select only one special card!"
+
+#. Translators: Experiment Information Title
+#: templates/SingleGame/disclaimer.html:23
+msgid "disclaimer_ExperimentInformationTitle"
+msgstr "Experiment Information Title"
+
+#. Translators: Experiment Information Text
+#: templates/SingleGame/disclaimer.html:28
+msgid "disclaimer_ExperimentInformationText"
+msgstr ""
+"Welcome to the Chef's Hat Card game experiment! Here you will play a 9 "
+"points game against three virtual opponents: Avery, Beck and Cass. All the "
+"instructions about the game will be given to you on the next page. In this "
+"experiment, we will not collect any personal data from you. We will record "
+"the entire game decisions you made, as well as the game decisions your "
+"opponents made. The entire experiment should take no longer than 1h to be "
+"completed and you can withdraw at any point, without any problem for you or "
+"for the experiment. "
+
+#. Translators: Data Collection Policy Title
+#: templates/SingleGame/disclaimer.html:33
+msgid "disclaimer_DataCollectionTitle"
+msgstr "Data Collection Policy"
+
+#. Translators: Data Collection Policy Text
+#: templates/SingleGame/disclaimer.html:36
+msgid "disclaimer_DataCollectionText1"
+msgstr ""
+" Before, during and after the game matches, you will be asked some questions "
+"about how you and your opponents play competitive games. We will store the "
+"response of this questions, and use them to investigate aspects of a "
+"competitive interaction. If you decide to continue with the experiment, you "
+"are agreeing to:"
+
+#. Translators: The answers you will give will be used within the research project only;
+#: templates/SingleGame/disclaimer.html:41
+msgid "disclaimer_DataCollectionOption1"
+msgstr ""
+"The answers you will give will be used within the research project only;"
+
+#. Translators: The data will be anonymously processed and for scientific purposes only;
+#: templates/SingleGame/disclaimer.html:43
+msgid "disclaimer_DataCollectionOption2"
+msgstr ""
+"The data will be anonymously processed and for scientific purposes only;"
+
+#. Translators: The results of this study can be published in scientific journals in aggregated form only.
+#: templates/SingleGame/disclaimer.html:45
+msgid "disclaimer_DataCollectionOption3"
+msgstr ""
+"The results of this study can be published in scientific journals in "
+"aggregated form only."
+
+#. Translators: Data Collection Policy Text
+#: templates/SingleGame/disclaimer.html:49
+msgid "disclaimer_DataCollectionText2"
+msgstr ""
+"If you want your data to be removed from the study, you can email the "
+"researcher, within one week, at pablo.alvesdebarros@iit.it with your "
+"request. The contents of this experiment, including (but not limited to) all "
+"written material, images, and videos, are reserved by IIT. You are not "
+"allowed to copy, reproduce, modify, republish, transmit, or distribute any "
+"material from this study without express written permission."
+
+#. Translators: Contact Information Title
+#: templates/SingleGame/disclaimer.html:53
+msgid "disclaimer_ContactTitle"
+msgstr "Contact Information"
+
+#. Translators: Contact Information Text1
+#: templates/SingleGame/disclaimer.html:56
+msgid "disclaimer_ContactText1"
+msgstr ""
+" This survey is part of a larger project titled “Research on the development "
+"of human-human and human-robot social interaction in children and adults”, "
+"Cod. IIT_INT_HRI, approved by the competent Ethical Committee. The study is "
+"led by the COgNiTive Architecture for Collaborative Technologies (CONTACT) "
+"unit of the Italian Institute of Technology (IIT), based in Genoa, Italy. "
+
+#. Translators: Contact Information Text2
+#: templates/SingleGame/disclaimer.html:60
+msgid "disclaimer_ContactText2"
+msgstr ""
+"If you are facing problems, please enter in our discord channel  or contact "
+"us through our email: "
+
+#. Translators: Participation Confirmation Title
+#: templates/SingleGame/disclaimer.html:70
+msgid "disclaimer_PartConfirmationTitle"
+msgstr "Participation Confirmation"
+
+#. Translators: Participation Confirmation Text
+#: templates/SingleGame/disclaimer.html:74
+msgid "disclaimer_PartConfirmationText"
+msgstr ""
+"After reading this disclaimer, please proceed only if you want to "
+"participate in this study. As a reminder, confirming to participate in this "
+"study means you have read the following: "
+
+#. Translators:  I have read the information section giving details of this study.
+#: templates/SingleGame/disclaimer.html:80
+msgid "disclaimer_PartConfirmationOption1"
+msgstr "I have read the information section giving details of this study."
+
+#. Translators:  I understand my participation is voluntary and I can withdraw consent at any time without giving any reason.
+#: templates/SingleGame/disclaimer.html:83
+msgid "disclaimer_PartConfirmationOption2"
+msgstr ""
+"I understand my participation is voluntary and I can withdraw consent at any "
+"time without giving any reason."
+
+#. Translators:  I give permission that any information that I provide will be used anonymously in this research or in the monitoring of the research..
+#: templates/SingleGame/disclaimer.html:85
+msgid "disclaimer_PartConfirmationOption3"
+msgstr ""
+" I give permission that any information that I provide will be used "
+"anonymously in this research or in the monitoring of the research."
+
+#: templates/SingleGame/disclaimer.html:96
+#: templates/SingleGame/disclaimerVideo.html:51
+#: templates/SingleGame/rules.html:78 templates/SingleGame/startNewGame.html:94
+msgid "rules_Continue"
+msgstr "Continue"
+
+#: templates/SingleGame/disclaimerVideo.html:24
+#: templates/SingleGame/startExperiment.html:42
+msgid "index_startgame"
+msgstr "Start!"
+
+#. Translators: Please watch this video first:
+#: templates/SingleGame/disclaimerVideo.html:40
+msgid "videoDisclaimer_WatchThis"
+msgstr "Please watch this video"
+
+#: templates/SingleGame/game.html:139
+msgid "game_playCards"
+msgstr "Play Cards"
+
+#: templates/SingleGame/game.html:147 templates/SingleGame/startNewGame.html:23
+msgid "startNewGame_Rounds"
+msgstr "Game "
+
+#: templates/SingleGame/game.html:148
+msgid "game_Turno"
+msgstr "Turn "
+
+#: templates/SingleGame/game.html:153 templates/SingleGame/startNewGame.html:50
+#: templates/SingleGame/startNewGame.html:54
+#: templates/SingleGame/startNewGame.html:58
+#: templates/SingleGame/startNewGame.html:62
+msgid "startNewGame_Score"
+msgstr "Score"
+
+#: templates/SingleGame/game.html:169 templates/SingleGame/game.html:216
+#: templates/SingleGame/game.html:236 templates/SingleGame/game.html:252
+#: templates/SingleGame/startNewGame.html:140
+msgid "startNewGame_pleaseRefer"
+msgstr "Please refer to the "
+
+#: templates/SingleGame/game.html:169 templates/SingleGame/game.html:216
+#: templates/SingleGame/game.html:236 templates/SingleGame/game.html:252
+#: templates/SingleGame/startNewGame.html:140
+msgid "startNewGame_rulebook"
+msgstr "Rulebook"
+
+#: templates/SingleGame/game.html:169 templates/SingleGame/game.html:216
+#: templates/SingleGame/game.html:236 templates/SingleGame/game.html:252
+#: templates/SingleGame/startNewGame.html:140
+msgid "startNewGame_paraMaisInformacoes"
+msgstr " for more information."
+
+#: templates/SingleGame/game.html:177
+msgid "game_discarded"
+msgstr " Discarded!"
+
+#: templates/SingleGame/game.html:205
+msgid "game_pizzaReady"
+msgstr "finished the Pizza!"
+
+#: templates/SingleGame/game.html:210
+msgid "game_pizzaCollectingCards"
+msgstr "We are collecting the cards, wait a second!"
+
+#: templates/SingleGame/game.html:226
+msgid "game_finished"
+msgstr "Game Finished!"
+
+#: templates/SingleGame/game.html:231
+msgid "game_nextActionsSimulated"
+msgstr "The next actions will be simulated, wait a second!"
+
+#: templates/SingleGame/gameFinished.html:21
+msgid "finished_gameFinished"
+msgstr "Game Finished!"
+
+#. Translators:         Your total performance Score is:
+#: templates/SingleGame/gameFinished.html:25
+msgid "finished_finalScore"
+msgstr "Your total performance Score is: "
+
+#. Translators:        Click here to see the final rank!
+#: templates/SingleGame/gameFinished.html:27
+msgid "finished_rankLink"
+msgstr "Click here to see the final rank!"
+
+#: templates/SingleGame/gameFinished.html:28
+msgid "finished_questionnaire"
+msgstr "Now please answer these last questions: "
+
+#. Translators:Game Manual
+#: templates/SingleGame/ruleBook.html:19
+msgid "ruleBook_gameManual"
+msgstr "Game Manual"
+
+#. Translators:Click to enlarge
+#: templates/SingleGame/ruleBook.html:21
+msgid "ruleBook_enlarge"
+msgstr "Click to enlarge."
+
+#: templates/SingleGame/rules.html:19
+#: templates/SingleGame/selectAdversaries.html:18
+msgid "rules_welcome"
+msgstr " Welcome "
+
+#: templates/SingleGame/rules.html:25
+msgid "rules_Rulebook"
+msgstr "First, check the game's rulebook bellow or by "
+
+#: templates/SingleGame/rules.html:26 templates/SingleGame/rules.html:47
+msgid "rules_clickHere"
+msgstr "clicking here!"
+
+#: templates/SingleGame/rules.html:47
+msgid "rules_discordMessage"
+msgstr ""
+"If you have any question or if you are facing problems, contact us directly "
+"through our discord channel by "
+
+#: templates/SingleGame/rules.html:48
+msgid "rules_emailMessage"
+msgstr "You can also contact us through the email address:"
+
+#: templates/SingleGame/rules.html:54
+msgid "rules_opponentsTitle"
+msgstr "You will play against three opponents: Beck, Cass and Avery."
+
+#: templates/SingleGame/rules.html:57
+msgid "rules_opponentsExplanation"
+msgstr ""
+"The winner of every match will receive 3 points, the winner of the game will "
+"be the one who reaches 9 points first."
+
+#. Translators: You will first play a trial game to get to know better the rules. This game will not count towards your final score. %}
+#: templates/SingleGame/rules.html:61
+msgid "rules_FirstGameExplanation"
+msgstr ""
+"You will first play a trial game to get to know better the rules. This game "
+"will not count towards your final score."
+
+#: templates/SingleGame/selectAdversaries.html:26
+msgid "adversaries_AnswerQuestions"
+msgstr " Before you start the game, please answer these questions! "
+
+#: templates/SingleGame/selectAdversaries.html:39
+msgid "adversaries_Play"
+msgstr "Play"
+
+#: templates/SingleGame/startExperiment.html:32
+msgid "index_Welcome"
+msgstr ""
+"Competition in a kitchen is fierce: the Chef always gets benefits. Use your "
+"ingredients to make tastiest pizza of all. The faster you get rid of your "
+"ingredients, the higher you rank in the kitchen will be. Be aware though! "
+"Don’t get too comfortable being a Chef. If you are not careful you will end "
+"up begin a Dishwasher."
+
+#: templates/SingleGame/startExperiment.html:41
+msgid "index_textNickname"
+msgstr "please choose a nickname"
+
+#: templates/SingleGame/startExperiment.html:49
+msgid "index_NickDisclaimer"
+msgstr ""
+"Your nickname will identify you in all of our games. Please choose a unique "
+"nickname, and use it again if you play another game."
+
+#. Translators: You will star now your trial game! It will not count towards the final score. Enjoy it! %}
+#: templates/SingleGame/startNewGame.html:27
+msgid "startNewGame_startTrialGame"
+msgstr ""
+"You will star now your trial game! It will not count towards the final "
+"score. Enjoy it!"
+
+#. Translators: Now you will start the real challenge! Good luck! %}
+#: templates/SingleGame/startNewGame.html:33
+msgid "startNewGame_startRealGame"
+msgstr "Now you will start the real challenge! Good luck!"
+
+#: templates/SingleGame/startNewGame.html:42
+msgid "startNewGame_questionnaire"
+msgstr "Before you start your new game, please respond the following questions"
+
+#: templates/SingleGame/startNewGame.html:75
+msgid "startNewGame_Exchange"
+msgstr "Card Exchange!"
+
+#: templates/SingleGame/startNewGame.html:82
+msgid "startNewGame_Invalid"
+msgstr "Invalid Action!"
+
+#. Translators: [player] said Dinner Served! There will be no card exchange on this round! %}
+#: templates/SingleGame/startNewGame.html:89
+msgid "startNewGame_dinnerServedMessage"
+msgstr "said Dinner Served! There will be no card exchange on this round! "
+
+#. Translators: [player] said Food Fight! Your role changed: %}
+#: templates/SingleGame/startNewGame.html:105
+msgid "startNewGame_foodFightdMessage"
+msgstr "said Food Fight! Your role changed:"
+
+#: templates/SingleGame/startNewGame.html:108
+msgid "startNewGame_From"
+msgstr "You received the following cards from the "
+
+#: templates/SingleGame/startNewGame.html:131
+msgid "startNewGame_sendCards"
+msgstr "Send Cards!"
+
+#: templates/SingleGame/startNewGame.html:157
+msgid "startNewGame_endOfGame"
+msgstr "End of the game"
+
+#: templates/SingleGame/startNewGame.html:163
+#: templates/SingleGame/startNewGame.html:165
+msgid "startNewGame_newGame"
+msgstr "Start Game Number "
+
+#: views.py:34 views.py:772
+msgid "ruleBook_page1Link"
+msgstr "rulebook_1_en.png"
+
+#: views.py:35 views.py:773
+msgid "ruleBook_page2Link"
+msgstr "rulebook_2_en.png"
+
+#: views.py:67
+msgid "video_link"
+msgstr "k4BqeueSyvs"
+
+#: views.py:139 views.py:628
+msgid "ChefMessage"
+msgstr ""
+"You will start this game as a Chef! Please select two cards to give to the"
+
+#: views.py:140 views.py:629
+msgid "SousChefMessage"
+msgstr ""
+"You will start this game as a Sous-Chef! Please select one card to give to "
+"the"
+
+#: views.py:141 views.py:630
+msgid "WaiterMessage"
+msgstr ""
+"You will start this game as a Waiter! Your best card will be given to the"
+
+#: views.py:142 views.py:631
+msgid "DishwasherMessage"
+msgstr ""
+"You will start this game as a Dishwasher! Your two best cards will be given "
+"to the"
+
+#: views.py:159 views.py:216 views.py:610
+msgid "Chef"
+msgstr "Chef"
+
+#: views.py:159 views.py:216 views.py:610
+msgid "SousChef"
+msgstr "Sous-Chef"
+
+#: views.py:159 views.py:216 views.py:610
+msgid "Waiter"
+msgstr "Waiter"
+
+#: views.py:159 views.py:216 views.py:610
+msgid "Dishwasher"
+msgstr "Dishwasher"
+
+#~ msgid "index_language"
+#~ msgstr "Language:"

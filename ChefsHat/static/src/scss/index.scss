@@ -1,0 +1,72 @@
+@use 'partials/components';
+@use 'partials/mixins';
+@use 'partials/media';
+
+html {
+  body {
+    .wrapper {
+      .section--header {
+        @include mixins.flex(2);
+
+        .container--img {
+          @include mixins.align-items(center);
+
+          .img--languages {
+            float: left;
+
+          }
+
+          .img--chef_hat {
+            height: auto;
+            max-width: 11em;
+          }
+
+          @include media.media('landscape-max-h414') {
+            display: none;
+          }
+          @include media.media('portrait', '<m-phone') {
+            display: none;
+          }
+          @include media.media('portrait', '>=m-phone') {
+            display: flex;
+          }
+        }
+      }
+      .section--content {
+        @include mixins.flex(2);
+        .container--intro {
+          @include mixins.flex(1);
+        }
+      }
+      .section--form {
+        @include mixins.flex(1);
+        
+        .container--form {
+          @include mixins.flex-grow(1);
+          @include components.button;
+
+          .form--index {
+            .form__input {
+              margin-bottom: 1vh;
+              max-width: 18em;
+            }
+          }
+        }
+      }
+      .section--footer {
+        @include mixins.flex(1);
+
+        .text {
+          display: block;
+
+          @include media.media('landscape-max-h414') {
+            display: none;
+          }
+          @include media.media('portrait', '>s-phone') {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

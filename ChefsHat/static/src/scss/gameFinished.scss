@@ -1,0 +1,20 @@
+@use 'partials/_mixins';
+
+html {
+  body {
+    .wrapper {
+      .section--header {
+        @include mixins.flexCol(center);
+        @include mixins.flex(1);
+
+        .container--img {
+          margin-bottom: 15px;
+
+          .img--chef_hat {
+            max-width: 18em;
+          }
+        }
+      }
+    }
+  }
+}

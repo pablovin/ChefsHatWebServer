@@ -1,75 +1,36 @@
 from django.db import models
-# from SingleGame.ChefsHatGYM.KEF.DataSetManager import actionFinish, actionDiscard, actionPass, actionDeal, actionInvalid, actionNewGame, actionChangeRole, actionPizzaReady
+from django.contrib.postgres.fields import ArrayField
 
-class User(models.Model):
+class Rank(models.Model):
+    time = models.DateTimeField(auto_now=True)
+    nickName = models.CharField(default="", max_length=500)
+    score = models.FloatField(blank=True)
 
-    def __str__(self):
-        return self.name
+class Experiment(models.Model):
 
-    name = models.CharField(max_length=200, blank=False, null=False)
+    name = models.CharField(max_length=300)
 
-class Game(models.Model):
-    DQL = 'DQL'
-    PPO = 'PPO'
-    A2C = 'A2C'
-    AIRL = 'AIRL'
-    Random = "RANDOM"
+class DataSet(models.Model):
 
-    OPONNETS = [
-        (DQL, 'DQL'),
-        (PPO, 'PPO'),
-        (A2C, 'A2C'),
-        (AIRL, 'AIRL'),
-        (Random, 'RAN'),
-    ]
-
-
-    def __str__(self):
-        players = [self.user.name, self.oponent1, self.oponent2, self.oponent3]
-        return str(self.date) + "_"+str(players)
-
-
-    date = models.DateTimeField(auto_now = True)
-    previousGame = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    oponent1 = models.CharField(
-        max_length=6,
-        choices=OPONNETS,
-        default=Random,
-    )
-    oponent2 = models.CharField(
-        max_length=6,
-        choices=OPONNETS,
-        default=Random,
-    )
-    oponent3 = models.CharField(
-        max_length=6,
-        choices=OPONNETS,
-        default=Random,
-    )
-
-class Actions(models.Model):
-
-    # ACTIONTYPE = [actionFinish, actionDiscard, actionPass, actionDeal, actionInvalid, actionNewGame, actionChangeRole, actionPizzaReady]
-
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now = True)
-    gameNumber = models.CharField(max_length= 50)
-    roundNumber = models.CharField(max_length= 50)
-    player = models.CharField(max_length= 50)
-    actionType = models.CharField(max_length= 50)
-    playerHand = models.CharField(max_length= 400)
-    board = models.CharField(max_length= 400)
-    possibleActions = models.CharField(max_length= 400)
-    cardAction = models.CharField(max_length= 400)
-    reward = models.CharField(max_length= 400, default="")
-    qValues = models.CharField(max_length= 400, default="")
-    loss = models.CharField(max_length= 400)
-    wrongActions = models.CharField(max_length= 400)
-    totalActions = models.CharField(max_length= 400)
-    scores = models.CharField(max_length= 400)
-    roles = models.CharField(max_length= 400)
-    playerStatus =models.CharField(max_length= 400)
-    agentNames = models.CharField(max_length= 400)
+    experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
+    time = models.DateTimeField(auto_now=True)
+    gameNumber =  models.CharField(default="", max_length=4)
+    roundNumber = models.CharField(default="", max_length=4)
+    player =  models.CharField(default="", max_length=2)
+    actionType = models.CharField(max_length=50)
+    playerHand = ArrayField(ArrayField(models.IntegerField(blank=True, default=list)), default=list)
+    board = ArrayField(models.IntegerField(blank=True), default=list)
+    possibleActions = ArrayField(models.IntegerField(blank=True),  default=list)
+    cardsAction = ArrayField(models.CharField(max_length=500), default=list)
+    reward = models.CharField(max_length=10, default ="")
+    Qvalues = ArrayField(models.CharField(max_length=8),  default=list)
+    loss = models.CharField(max_length=20, default ="")
+    wrongActions = models.CharField(max_length=10, default ="")
+    totalActions = models.CharField(max_length=10, default ="")
+    scores = ArrayField(models.IntegerField(blank=True),  default=list)
+    roles = ArrayField(models.IntegerField(blank=True),  default=list)
+    playerStatus = ArrayField(ArrayField(models.CharField(max_length=500,default="")), default=list)
+    agentNames = ArrayField(models.CharField(blank=True, max_length=50),  default=list)
+    performanceScore = ArrayField(models.FloatField(blank=True),  default=list)
 
 # Create your models here.

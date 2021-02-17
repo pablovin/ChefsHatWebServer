@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block page_title %}
+  Chef's Hat Card Game - Single Game
+{% endblock %}
+
+{% block page_css %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/ruleBook.css' %}" />
+{% endblock %}
+
+{% block body %}
+ <div class="wrapper">
+
+     <div class="section section--header">
+            <div class="container container--title">
+                {% comment %}Translators:Game Manual{% endcomment %}
+                <p class="text text--xxxl text--title">{% trans 'ruleBook_gameManual' %}</p>
+                {% comment %}Translators:Click to enlarge{% endcomment %}
+                <p class="text text--md"> {% trans 'ruleBook_enlarge' %} </p>
+            </div>
+        </div>
+        <div class="section section--content">
+                <a class="lightbox" href="#pg1">
+                   <img src="../../static/images/{{page1}}"/>
+                </a>
+
+                <div class="lightbox-target" id="pg1">
+                   <img src="../../static/images/{{page1}}"/>
+                   <a class="lightbox-close" href="#"></a>
+                </div>
+
+                <a class="lightbox" href="#pg2">
+                   <img src="../../static/images/{{page2}}"/>
+                </a>
+
+                <div class="lightbox-target" id="pg2">
+                   <img src="../../static/images/{{page2}}"/>
+                   <a class="lightbox-close" href="#"></a>
+                </div>
+        </div>
+</div>
+{% endblock %}

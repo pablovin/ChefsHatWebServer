@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <!-- Global styles  -->
+    {% block site_css %}
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/utility/reset.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+    {% endblock %}
+
+    <!-- Page-specific styles -->
+    {% autoescape off %}
+    {% block page_css %}
+    {% endblock %}
+    {% endautoescape %}
+
+    <!-- Extra header stuff (scripts, styles, metadata, etc) -->
+    {% block extra_head %}
+    {% comment %} <script type="module" src="{% static 'js/base.js' %}"></script>     {% endcomment %}
+    {% endblock %}
+    <title>{% block page_title %}{% endblock %}</title>
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+    {% block body %}
+    {% endblock %}
+
+    <!-- Global javascript -->
+    {% block site_js %}
+    {% endblock %}
+
+    {# Shared data for javascript #}
+    <script>
+    var _sharedData = {
+        {% autoescape off %}
+        {% block shared_data %}
+            'DEBUG': {% if debug %}true{% else %}false{% endif %},
+        {% endblock %}
+        {% endautoescape %}
+    }
+    </script>
+        
+    <!-- Page javascript -->
+    {% autoescape off %}
+    {% block page_js %}
+    {% endblock %}
+    {% endautoescape %}
+</body>
+
+</html>

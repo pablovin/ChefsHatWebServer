@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.utils.translation import gettext_lazy as _
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -25,8 +27,8 @@ SECRET_KEY = 'f%ta#yjeeo1+*v8vzyf!9!wz!1=xc84p7sptibf(vtokoegt1q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -37,13 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
-
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -76,12 +78,28 @@ WSGI_APPLICATION = 'ChefsHat.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.sqlite3',
+        #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # }
 
+        'default': {
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': "chefshatdb",
+
+        'USER': "chefshatuser",
+
+        'PASSWORD': "chefshatpassword",
+
+        'HOST': 'localhost',
+
+        'PORT': '',
+
+    }
+
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -105,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt'
 
 TIME_ZONE = 'UTC'
 
@@ -115,13 +133,39 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = [
+  ('de', _('German')),
+  ('en', _('English')),
+  ('it', _('Italian')),
+  ('pt', _('Portuguese')),
+  ('es', _('Spanish')),
+]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# URL to use when referring to static files located in STATIC_ROOT.
+# This URL should be of the same name as the folder where your static file is stored.
 STATIC_URL = '/static/'
-STATIC_ROOT = "/home/pablo/Documents/Workspace/ChefsHatGymWebserver/ChefsHat/SingleGame/static/SingleGame"
+# The absolute path to the directory where collectstatic will collect static files for deployment (production).
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# STATIC_ROOT = "/home/pablo/Documents/Workspace/ChefsHatGymWebserver/ChefsHat/SingleGame/static/SingleGame"
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+
+"""Game Constants"""
+
+
+
+"""Experimental Settings"""
+
+ALLOW_CHEATING_CARD_EXCHANGE = False
+
+ALLOW_AUTOMATIC_SIMULATION = True
+
+ALLOW_TWO_JOKERS_PLAYER1 = False

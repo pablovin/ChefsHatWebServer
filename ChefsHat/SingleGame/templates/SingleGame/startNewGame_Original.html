@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title>Chef's Hat Card Game</title>
+</head>
+
+<link href="https://fonts.googleapis.com/css?family=Schoolbell&v1" rel="stylesheet">
+<style>
+
+       body, html {
+  height: 100%;
+}
+
+body {
+  /* The image used */
+  background-image: url( "/static/images/background.png");
+}
+
+.centered {
+position: fixed;
+  left: 45%;
+  /* bring your own prefixes */
+  transform: translate(-50%);
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.oneFith {
+  width: 20%;
+  text-align: center;
+
+}
+
+.singleColumn {
+  width: 90%;
+  text-align:center;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.centered {
+  position: relative;
+  width: 40%;
+  height: 10%;
+  background-color:#48cc63;
+  font-size: 40px;
+  text-color: white;
+  text-align:center;
+  vertical-align: middle;
+  line-height: 180%;
+
+
+}
+
+.score {
+  background-image: url( "/static/images/scoreBackground.png");
+  position: relative;
+  width: 80%;
+  height: 286px;
+  padding: 10%;
+  font-family: 'Schoolbell', arial, serif;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #48cc63;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80%;
+}
+
+
+</style>
+
+<body>
+
+<div class="row">
+  <div class="column oneFith">
+    <h1> Games</h1>
+      <div class="centered">
+    {{ currentGame }}
+      </div>
+  </div>
+
+      <div class="column oneFith">
+          <div class="score">
+              <h2> {{ playerNames.0 }}  Score </h2>
+             <h1> {{humanScore.0 }}</h1>
+           </div>
+
+  </div>
+
+      <div class="column oneFith">
+          <div class="score">
+              <h2> {{ playerNames.1 }}  Score </h2>
+             <h1> {{humanScore.1}} </h1>
+          </div>
+  </div>
+
+      <div class="column oneFith">
+          <div class="score">
+              <h2> {{ playerNames.2 }}  Score </h2>
+              <h1> {{humanScore.2}} </h1>
+          </div>
+  </div>
+
+      <div class="column oneFith">
+          <div class="score">
+              <h2> {{ playerNames.3 }}  Score </h2>
+               <h1>{{humanScore.3}}</h1>
+          </div>
+  </div>
+
+    <div class="row">
+  <div class="column singleColumn">
+
+      {% if gameOver %}
+      <form action="{% url 'SingleGame:gameFinished'%}" method="post">
+{% csrf_token %}
+          <input type="submit" value="End of the game!">
+</form>
+      {% else %}
+            <form action="{% url 'SingleGame:startGame'%}" method="post">
+{% csrf_token %}
+          <input type="submit" value="Start Game Number {{ nextGameGame }}">
+</form>
+      {% endif  %}
+  </div>
+
+
+</div>
+
+
+
+
+
+</body>
+</html>

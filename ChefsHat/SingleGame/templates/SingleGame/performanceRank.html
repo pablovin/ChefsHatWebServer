@@ -1,0 +1,65 @@
+
+<!--{% extends 'base.html' %}-->
+
+{% load i18n %}
+
+{% block page_title %}
+  Chef's Hat Card Game - Single Game
+{% endblock %}
+
+{% block page_css %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/gameFinished.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/ranking.css' %}">
+{% endblock %}
+
+{% block body %}
+  <div class="wrapper">
+      <div class="section section--header">
+          <div class="container container--title">
+              <p class="text text--xxxl text--title">
+
+                  Performance Score Ranking</p>
+
+              <table class="sortable-table">
+                  <thead>
+                          <tr class="headingTr">
+                              <th>
+                                  Position
+                              </th>
+                              <th>
+                                  Date
+                              </th>
+                              <th>
+                                  Nickname
+                              </th>
+                              <th class="numeric-sort">
+                                  Score
+                              </th>
+                          </tr>
+                     </thead>
+                  <tbody>
+                      {% for score in scores %}
+                      <tr>
+                          <th>
+                              {{ forloop.counter }}
+                          </th>
+                          <th>
+                             {{ score.0 }}
+                          </th>
+                          <th>
+                             {{ score.1 }}
+                          </th>
+                          <th>
+                             {{ score.2 }}
+                          </th>
+                      </tr>
+
+                      {% endfor %}
+                  </tbody>
+              </table>
+
+          </div>
+      </div>
+  </div>
+{% endblock %}

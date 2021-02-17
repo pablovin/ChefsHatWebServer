@@ -1,0 +1,47 @@
+@use 'partials/components';
+@use 'partials/mixins';
+@use 'partials/media';
+
+html {
+  body {
+    .wrapper {
+      .form {
+        @include mixins.flexCol(space-evenly);
+
+        .section--intro {
+          .container--iframe--intro {
+            @include mixins.flex(unset);
+          }
+        }
+        .section--game_survey {
+          width: 100%;
+
+          .container--iframe {
+            @include mixins.flex(unset);
+            width: 100%;
+
+            .iframe--survey {
+              display: flex;
+              flex: 1 0 100%;
+              height: 100%;
+              width: 100%;
+              min-height: 60vh;
+
+              @include media.media('portrait') {                
+                @include media.media('>=s-phone') {
+                  min-height: 70vh;
+                }
+              }
+            }
+          }
+          .container--iframe_ref {
+            margin: 1% 0;
+          }
+        }
+        .section--footer {
+          @include components.button;
+        }
+      }
+    }
+  }
+}

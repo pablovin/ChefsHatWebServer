@@ -1,0 +1,260 @@
+@use 'partials/components';
+@use 'partials/mixins';
+@use 'partials/media';
+
+html {
+  body {
+    overflow: hidden;
+    @include components.modalOverlay;
+
+    .wrapper {
+      @include components.modalPlayer;
+      @include mixins.flexCol(space-between);
+      position: relative;
+
+      @include media.media("landscape") {
+        @include mixins.flexRow();
+      }
+      .section--board {
+        @include mixins.background-size(contain !important);
+        @include mixins.flex(1, 0, 50%);
+        background-repeat: no-repeat !important;
+        background-position: center center !important;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+      }
+      .section--players {
+        @include mixins.flexRow(space-between, center);
+
+        @include media.media("portrait") {
+          &:nth-child(1),
+          &:nth-child(3) {
+            height: auto;
+            width: 100%;
+          }
+
+          &:nth-child(1) {
+            margin: 1% 0 1em;
+          }
+          &:nth-child(3) {
+            margin: 1em 0 1%;
+          }
+        }
+        @include media.media("landscape") {
+          @include mixins.flexCol(space-between);
+
+          &:nth-child(1),
+          &:nth-child(3) {
+            height: 100%;
+            width: auto;
+          }
+
+          &:nth-child(1) {
+            margin: 0 0 0 1%;
+          }
+          &:nth-child(3) {
+            margin: 0 1% 0 0;
+          }
+        }
+        &.section--players--upper {
+          @include mixins.align-items(flex-start);
+
+          .container__player {
+            @include mixins.flexCol(space-between, center, column);
+
+            .container__player--name {
+              margin-bottom: 0.8em;
+            }
+
+            @include media.media("landscape") {
+              &.container__player--right {
+                @include mixins.flexCol(space-between, flex-start, column-reverse);
+                .container__player--name {
+                  margin-top: 0.8em;
+                  margin-bottom: unset;
+                }
+
+                .container__player--imgs {
+                  .container__player--cards {
+                    .player--cards_count {
+                      right: -0.75em;
+                      left: unset;
+                    }
+                  }
+                }
+
+                @include media.media("landscape") {
+                  .container__player--imgs {
+                    @include mixins.flexRow(center, flex-start row);
+
+                    .container__player--avatar {
+                      margin-right: 0.65em;
+                      margin-left: unset;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        &.section--players--under {
+          @include mixins.align-items(flex-end);
+
+          @include media.media("landscape") {
+            @include mixins.align-items(center);
+          }
+
+          .container__player {
+            @include mixins.flexCol(space-between, center, column-reverse);
+
+            .container__player--name {
+              margin-top: 0.8em;
+            }
+
+            @include media.media("landscape") {
+              @include mixins.flexCol(space-between, flex-end, column);
+            }
+
+            @include media.media("landscape") {
+              &.container__player--left {
+                @include mixins.align-items(flex-end);
+
+                .container__player--name {
+                  margin-bottom: 0.8em;
+                  margin-top: unset;
+                }
+
+                .container__player--imgs {
+                  @include mixins.flexRow(space-between, flex-end, row-reverse);
+
+                  .container__player--avatar {
+                    margin-left: 0.65em;
+                    margin-right: unset;
+                  }
+
+                  .container__player--cards {
+                    .player--cards_count {
+                      left: -0.75em;
+                      right: unset;
+                    }
+                  }
+                }
+              }
+              &.container__player--right {
+                @include mixins.flexCol(space-between, flex-end, column-reverse);
+
+                .container__player--imgs {
+                  @include mixins.flexRow(space-between, flex-end, row-reverse);
+
+                  .container__player--avatar {
+                    margin-left: 0.75em;
+                    margin-right: unset;
+                  }
+
+                  .container__player--cards {
+                    .player--cards_count {
+                      right: 0;
+                      left: -0.75em;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .container__player {
+          margin: 0 1%;
+
+          @include media.media(">=phone") {
+            margin: 2%;
+          }
+          &.container__player--left {
+            @include mixins.align-items(flex-start);
+
+            .container__player--imgs {
+              @include mixins.flexRow(center, flex-end);
+
+              .container__player--avatar {
+                margin-right: 0.65em;
+              }
+              .container__player--cards {
+                .player--cards_count {
+                  top: -0.75em;
+                  right: -0.75em;
+                }
+              }
+            }
+          }
+          &.container__player--right {
+            @include mixins.align-items(flex-end);
+
+            .container__player--imgs {
+              @include mixins.flexRow(center, flex-end, row-reverse);
+
+              .container__player--avatar {
+                margin-left: 0.65em;
+              }
+
+              .container__player--cards {
+                .player--cards_count {
+                  top: -0.75em;
+                  left: -0.75em;
+                }
+              }
+            }
+          }
+          .container__player--name {
+            .text--player_name {
+              font-weight: 800;
+            }
+          }
+          .container__player--imgs {
+            .container__player--avatar {
+              display: flex;
+
+              .img--player {
+                max-width: 3.5em;
+              }
+            }
+            .container__player--cards {
+              display: flex;
+              position: relative;
+
+              .img--card {
+                box-shadow: 2px 2px 3px var(--primary-color);
+                max-width: 3em;
+              }
+
+              .player--cards_count {
+                position: absolute;
+                font-size: 1em;
+                z-index: 2;
+                width: 1.5em;
+                height: 1.5em;
+                border: var(--secondary-color) solid 2px;
+                background-color: white;
+                @include mixins.border-radius(100%);
+                text-align: center;
+                line-height: inherit;
+                vertical-align: middle;
+                font-weight: 800;
+              }
+            }
+          }
+          &.player__turn {
+            .container__player--imgs {
+              .container__player--cards {
+                .img--card {
+                  @include components.pulseOnTurn;
+                  border: 0 0 1px 1px solid var(--primary-color);
+                  border-radius: 5px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

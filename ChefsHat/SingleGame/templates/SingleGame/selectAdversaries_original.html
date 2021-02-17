@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title>Chef's Hat Card Game</title>
+</head>
+
+<style>
+
+       body, html {
+  height: 100%;
+}
+
+body {
+  /* The image used */
+  background-image: url( "/static/images/background.png");
+}
+
+.centered {
+position: fixed;
+  left: 45%;
+  /* bring your own prefixes */
+  transform: translate(-50%);
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left, .right {
+  width: 30%;
+}
+
+.middle {
+  width: 25%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+input[type=text], select {
+  border-radius: 4px;
+  background-color: #48cc63;
+  color: black;
+  margin: 4px 2px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 16px;
+}
+
+.radio_item{
+    display: none !important;
+    }
+
+    .label_item {
+    opacity: 0.3;
+    }
+
+    .radio_item:checked + label {
+    opacity: 1;
+    }
+
+label {
+cursor: pointer;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #48cc63;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+</style>
+<body>
+
+<form action="{% url 'SingleGame:startNewExperiment'%}" method="post">
+{% csrf_token %}
+
+<div class="row">
+  <div class="column left">
+     <h1>Welcome {{ user.name }}!</h1>
+
+      <h3 align="center"> Before you start the game!</h3>
+      <p> <a href="https://it.surveymonkey.com/r/89VQVDQ" target="blank">Please respond to these questions.</a></p>
+
+
+    <h3>First, check the game's <a href="/static/images/rulebook.pdf" target="_blank">rule book!</a></h3>
+    <p> If you have any question please contact: pablo.alvesdebarros@iit.it</p>
+
+       <h3>Second, Choose a game style!</a></h3>
+       <p> <b>Single game:</b> One single game against your adversaries. <br>
+        <b>15 Points:</b> Play a series of games and try to be the first one to reach 15 points. </p>
+
+       <h3>Third, Choose your adversaries!</a></h3>
+      Each adversary learned how to play the game  with different strategies. <br>
+        You might want to explore this by playing several games with each of them! <br> <br>
+        More information about each agent:<br>
+      Barros, P., Tanevska, A., & Sciutti, A. (2020). Learning from Learners: Adapting Reinforcement Learning Agents to be Competitive in a Card Game. arXiv preprint arXiv:2004.04000. <a href="https://arxiv.org/abs/2004.04000 " target="_blank">https://arxiv.org/abs/2004.04000 </a>
+           <!--RADIO 1-->
+      <h3> Start the game!</h3>
+        <input type="submit" value="Start Game">
+  </div>
+
+      <div class="column middle">
+       <h3>Game style</h3>
+
+    <input type="radio" class="radio_item" value="Single" name="gameStyle" id="gameStyle1" checked="True">
+        <label class="label_item" for="gameStyle1"> <img src="/static/images/singleGame.png"> </label>
+
+    <!--RADIO 2-->
+    <input type="radio" class="radio_item" value="15Points" name="gameStyle" id="gameStyle2">
+    <label class="label_item" for="gameStyle2"> <img src="/static/images/15PointsGame.png"> </label>
+  </div>
+
+      <div class="column right">
+       <h3>Adversaries.</h3>
+
+        <h4> Oponent 1</h4>
+        <input type="radio" class="radio_item" value="Random" name="oponent1" id="oponent_11" checked="True">
+        <label class="label_item" for="oponent_11"> <img src="/static/images/randomAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="DQL" name="oponent1" id="oponent_12">
+        <label class="label_item" for="oponent_12"> <img src="/static/images/DQLAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="A2C" name="oponent1" id="oponent_13">
+        <label class="label_item" for="oponent_13"> <img src="/static/images/A2CAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="PPO" name="oponent1" id="oponent_14">
+        <label class="label_item" for="oponent_14"> <img src="/static/images/PPOAgent.png"> </label>
+
+          <input type="radio" class="radio_item" value="DJ" name="oponent1" id="oponent_15">
+        <label class="label_item" for="oponent_15"> <img src="/static/images/DJAgent.png"> </label>
+
+        <h4> Oponent 2</h4>
+        <input type="radio" class="radio_item" value="Random" name="oponent2" id="oponent_21" checked="True">
+        <label class="label_item" for="oponent_21"> <img src="/static/images/randomAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="DQL" name="oponent2" id="oponent_22">
+        <label class="label_item" for="oponent_22"> <img src="/static/images/DQLAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="A2C" name="oponent2" id="oponent_23">
+        <label class="label_item" for="oponent_23"> <img src="/static/images/A2CAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="PPO" name="oponent2" id="oponent_24">
+        <label class="label_item" for="oponent_24"> <img src="/static/images/PPOAgent.png"> </label>
+
+          <input type="radio" class="radio_item" value="DJ" name="oponent2" id="oponent_25">
+        <label class="label_item" for="oponent_25"> <img src="/static/images/DJAgent.png"> </label>
+
+        <h4> Oponent 3</h4>
+        <input type="radio" class="radio_item" value="Random" name="oponent3" id="oponent_31" checked="True">
+        <label class="label_item" for="oponent_31"> <img src="/static/images/randomAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="DQL" name="oponent3" id="oponent_32">
+        <label class="label_item" for="oponent_32"> <img src="/static/images/DQLAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="A2C" name="oponent3" id="oponent_33">
+        <label class="label_item" for="oponent_33"> <img src="/static/images/A2CAgent.png"> </label>
+
+        <input type="radio" class="radio_item" value="PPO" name="oponent3" id="oponent_34">
+        <label class="label_item" for="oponent_34"> <img src="/static/images/PPOAgent.png"> </label>
+
+          <input type="radio" class="radio_item" value="DJ" name="oponent3" id="oponent_35">
+        <label class="label_item" for="oponent_35"> <img src="/static/images/DJAgent.png"> </label>
+
+    </br>
+  </div>
+
+</div>
+
+
+</form>
+
+
+
+
+</body>
+</html>

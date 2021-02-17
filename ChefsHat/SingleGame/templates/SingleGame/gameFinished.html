@@ -1,95 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-<title>Chef's Hat Card Game - Single Game</title>
-<!--    <style>-->
+{% extends 'base.html' %}
 
-<!--    .divL {-->
-<!--      float: left;-->
-<!--      box-sizing: border-box;-->
-<!--      width: 60%;-->
-<!--      padding: 10px;-->
-<!--    }-->
+{% load i18n %}
 
-<!--     .divr {-->
-<!--      float: left;-->
-<!--      box-sizing: border-box;-->
-<!--      width: 40%;-->
-<!--      padding: 10px;-->
-<!--    }-->
-<!--    .divL {-->
-<!--      background: #ffe9c6;-->
-<!--    }-->
-<!--    .divR {-->
-<!--      background: #ffdad8;-->
-<!--    }-->
-<!--    </style>-->
+{% block page_title %}
+  Chef's Hat Card Game - Single Game
+{% endblock %}
 
-    <style>
-* {
-  box-sizing: border-box;
-}
+{% block page_css %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/gameFinished.css' %}" />
+{% endblock %}    
 
-/* Create three unequal columns that floats next to each other */
-.column {
-  float: left;
-  padding: 10px;
-}
-
-.left, .right {
-  width: 25%;
-}
-
-.middle {
-  width: 50%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-</style>
+{% block body %}
+  <div class="wrapper">
+      <div class="section section--header">
+          <div class="container container--img">
+              <img class="img img--chef_hat" src="{% static 'images/chefHat.png' %}" alt="Chef's hat" />
+          </div>
+          <div class="container container--title">
+              <p class="text text--xxxl text--title">{% trans 'finished_gameFinished' %}</p>
 
 
-</head>
-<body>
+               {% comment %}Translators:         Your total performance Score is:{% endcomment %}
+              <p class="text text--xxxl">{% trans 'finished_finalScore' %} {{ performanceScore }}</p>
+              {% comment %}Translators:        Click here to see the final rank!{% endcomment %}
+              <p class="text text--xll"><a href="{% url 'SingleGame:rank'%}"> {% trans 'finished_rankLink' %}  </a> </p> </br></br>
+              <p class="text text--lg">{% trans 'finished_questionnaire' %}</p>
 
-Game finished!
-Thanks!
-
-
-<!--<div class="middle-box">-->
-
-<!--    <form action="{% url 'SingleGame:doAction'%}" method="post">-->
-<!--        {% csrf_token %}-->
-<!--    Allowed Actions: <select name = "selectedAction">-->
-<!--        {% for choice in currentlyAllowedActions %}-->
-<!--            <option value = "{{ choice}}" selected>{{ choice}}</option>-->
-<!--         {% endfor %}-->
-<!--</select>-->
-
-
-<!--<input type="submit" value="Do Action">-->
-<!--</form>-->
-<!--</div>-->
-
-<!--<div class="rightbox">-->
-
-<!--    <form action="{% url 'SingleGame:doAction'%}" method="post">-->
-<!--        {% csrf_token %}-->
-<!--    Allowed Actions: <select name = "selectedAction">-->
-<!--        {% for choice in currentlyAllowedActions %}-->
-<!--            <option value = "{{ choice}}" selected>{{ choice}}</option>-->
-<!--         {% endfor %}-->
-<!--</select>-->
-
-
-<!--<input type="submit" value="Do Action">-->
-<!--</form>-->
-<!--</div>-->
-
-</body>
-</html>
+              <iframe width="640px" height= "480px" src= "https://forms.office.com/Pages/ResponsePage.aspx?id=XkYvv3Ufb0u-Kb9TJzvB2u5KiGG9gI9Jl0u_PdkIVS5UMDlVSEpYME4zOFFYRFcwSFY3SVg4NjhEUy4u&embed=true" frameborder= "0" marginwidth= "0" marginheight= "0" style= "border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
+          </div>
+      </div>
+  </div>
+{% endblock %}

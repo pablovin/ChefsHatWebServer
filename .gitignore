@@ -1,0 +1,27 @@
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+# Visual Studio Code # 
+.vscode/* 
+!.vscode/settings.json 
+.history
+
+# Node
+**/node_modules/**
+
+# Project
+ChefsHat/SingleGame/__pycache__/
+ChefsHat/SingleGame/GameController/__pycache__/
+ChefsHat/ChefsHat/__pycache__/
+ChefsHat/SingleGame/*/__pycache__/
+ChefsHat/static/games/
+ChefsHat/static/css/*
+ChefsHat/static/js/*
+!ChefsHat/static/css/utility/
+
+ChefsHat/db.sqlite3

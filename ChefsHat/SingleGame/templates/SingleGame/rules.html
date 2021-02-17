@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% block page_title %}
+Chef's Hat Card Game
+{% endblock %}
+
+{% block page_css %}
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/rules.css' %}" />
+ <link rel="stylesheet" type="text/css" href="{% static 'css/ruleBook.css' %}" />
+{% endblock %}
+
+{% block body_class %}{% endblock %}
+{% block body %}
+<div class="wrapper">
+    <div class="section section--header">
+        <div class="container container--title">
+            <p class="text text--xxl text--title"> {% trans 'rules_welcome' %} {{ nickname }}!</p>
+        </div>
+    </div>
+    <div class="section section--rules">
+        <div class="container container--rule">
+            <div class="container container--rule--title">
+                <p class="text text--md">{% trans 'rules_Rulebook' %}
+                    <a href="{% url 'SingleGame:ruleBook' %}" target="_blank"> {% trans 'rules_clickHere' %} </a></p>
+
+                 <a class="lightbox" href="#pg1">
+                   <img src="../../static/images/{{page1}}"/>
+                </a>
+
+                <div class="lightbox-target" id="pg1">
+                   <img src="../../static/images/{{page1}}"/>
+                   <a class="lightbox-close" href="#"></a>
+                </div>
+
+                <a class="lightbox" href="#pg2">
+                   <img src="../../static/images/{{page2}}"/>
+                </a>
+
+                <div class="lightbox-target" id="pg2">
+                   <img src="../../static/images/{{page2}}"/>
+                   <a class="lightbox-close" href="#"></a>
+                </div>
+            </div>
+            <div class="container container--rule--text">
+                {% trans 'rules_discordMessage' %}<a href="https://discord.gg/PwnfSm7B" target="_blank"> {% trans 'rules_clickHere' %} </a> </p>
+                {% trans 'rules_emailMessage' %} <a href="mailto:pablo.alvesdebarros@iit.it">pablo.alvesdebarros@iit.it</a></p>
+            </div>
+        </div>
+
+        <div class="container container--rule">
+            <div class="container container--rule--title">
+                <p class="text text--md">{% trans 'rules_opponentsTitle' %}</p>
+            </div>
+            <div class="container container--rule--text">
+                <p class="text text--md">{% trans 'rules_opponentsExplanation' %}</p>
+            </div>
+            <div class="container container--rule--text--title">
+                 {% comment %}Translators: You will first play a trial game to get to know better the rules. This game will not count towards your final score. %} {% endcomment %}
+                <p class="text text--md">{% trans 'rules_FirstGameExplanation' %}</p>
+            </div>
+        </div>
+<!--        <div class="container container&#45;&#45;rule">-->
+<!--            <div class="container container&#45;&#45;rule&#45;&#45;title">-->
+<!--                <p class="text text&#45;&#45;md">Third, choose your adversaries!</p>-->
+<!--            </div>-->
+<!--            <div class="container container&#45;&#45;rule&#45;&#45;text">-->
+<!--                <p class="text text&#45;&#45;md">Each adversary learned how to play the game with different strategies.-->
+<!--                You might want to explore this by playing several games with each of them!</p>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+    <div class="section section--form">
+        <div class="container container--form">
+            <form id="formRules" class="form" action="{% url 'SingleGame:startNewExperiment'%}" method="post">
+                {% csrf_token %}
+                <a class="form__button text--md button" href="#" onclick="document.getElementById('formRules').submit();"> {% trans 'rules_Continue' %} </a>
+            </form>
+        </div>
+    </div>
+<!--    <div class="section section&#45;&#45;footer">-->
+<!--        <div class="container container&#45;&#45;footer">-->
+<!--            <p class="text text&#45;&#45;sm desktop">More information about each agent: Barros, P., Tanevska, A., &amp; Sciutti, A.  &lpar;2020&rpar;. Learning from Learners: Adapting Reinforcement Learning Agents to be Competitive in a Card Game. arXiv preprint arXiv:2004.04000. <a href="https://arxiv.org/abs/2004.04000 " target="_blank">https://arxiv.org/abs/2004.04000 </a></p>-->
+<!--            <p class="text text&#45;&#45;sm mobile">More information about each agent at <a href="https://arxiv.org/abs/2004.04000 " target="_blank">arxiv.org/abs/2004.04000</a></p>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+{% endblock %}
+
+{% comment %} {% block shared_data %}
+  {{ block.super }}
+    CONTEXT: "{{ nickname }}",
+    SUBMIT_URL: "{% url 'SingleGame:selectAdversaries' %}",
+    TOKEN: "{% csrf_token %}"
+{% endblock %} {% endcomment %}
+
+{% comment %} {% block page_js %}
+    <script src="{% static 'js/rules.js' %}"></script>
+{% endblock %} {% endcomment %}

@@ -1,0 +1,98 @@
+@use 'partials/components';
+@use 'partials/mixins';
+@use 'partials/media';
+
+html {
+  body {
+    .wrapper {
+      .section--header {
+        @include mixins.flex(2, 1);
+
+        .container--title {
+          @include media.media('landscape-max-h414') {
+            display: none;
+          }
+          @include media.media('portrait', '>s-phone') {
+            display: flex;
+          }
+        }
+      }
+      .section--rules {
+        @include mixins.flex(3, 0);
+        @include mixins.justify-content(space-evenly);
+        
+        .container--rule {
+          @include mixins.justify-content(space-evenly);
+          margin-bottom: 2%;
+
+          @include media.media('landscape-max-h320') {
+            margin-bottom: 0;
+          }
+
+          .container--rule--title {
+            .text {
+              font-weight: 600;
+            }
+          }
+        }
+      }
+      .section--form {
+        @include mixins.flex(1, 2);
+        
+        .container--form {
+          .form {
+            @include components.button;
+
+            .form__submit {
+              margin-top: 0;
+            }
+          }
+        } 
+      }
+      .section--footer {
+        @include mixins.flex(1);
+
+        .container--footer {
+          .text.desktop {
+            @include media.media('portrait') {
+              @include media.media('<=s-phone') {
+                display: none;
+              }
+              @include media.media('>s-phone') {
+                display: block;
+              }
+            }
+            @include media.media('landscape') {
+              display: block;
+
+              @include media.media('landscape-max-h414') {
+                display: none;
+              }
+            }
+          }
+          .text.mobile {
+            @include media.media('portrait') {
+
+              @include media.media('<=s-phone') {
+                display: block;
+              }
+              @include media.media('>s-phone') {
+                display: none;
+              }
+            }
+            @include media.media('landscape') {
+              display: none;
+              
+              @include media.media('landscape-max-h414') {
+                display: block;
+              }
+              @include media.media('landscape-max-h360') {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

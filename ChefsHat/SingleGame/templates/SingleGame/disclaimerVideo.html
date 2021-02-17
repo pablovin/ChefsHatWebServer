@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block page_title %}
+    Chef's Hat Card Game
+{% endblock %}
+
+{% block page_css %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
+{% endblock %}
+
+{% block body %}
+
+<!--
+  <select name="language" id="language">-->
+<!--                      <option value="en" {% if language == "en" %} selected {%endif%} >English</option>-->
+<!--                      <option value="de" {% if language == "de" %} selected {%endif%} >Deutsch</option>-->
+<!--                      <option value="it" {% if language == "it" %} selected {%endif%} >Italiano</option>-->
+<!--                      <option value="pt" {% if language == "pt" %} selected {%endif%} >Portugues</option>-->
+<!--                    </select>-->
+
+<!--                    <a class="form__button text&#45;&#45;md button" href="#" onclick="document.getElementById('formLanguage').submit();">{% trans 'index_startgame' %}</a>-->
+
+    <div class="wrapper">
+
+        <div class="section section--header">
+            <div class="container container--img">
+                       <img class="img img--chef_hat" src="{% static 'images/chefHat.png' %}" alt="Chef's hat" />
+            </div>
+            <div class="container container--title">
+                <p class="text text--xxxl text--title">Chef's hat</p>
+            </div>
+        </div>
+        <div class="section section--content">
+            <div class="container container--intro">
+                <p class="text text--md">
+{% comment %}Translators: Please watch this video first:{% endcomment %}
+{% trans 'videoDisclaimer_WatchThis' %}
+                </p>
+     <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ videoLink }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            </div>
+        </div>
+        <div class="section section--form">
+            <div class="container container--form">
+
+                <form id="formIndex" class="form form--index" action="{% url 'SingleGame:continueDisclaimer'%}" method="post">
+                    {% csrf_token %}
+                    <a class="form__button text--md button" href="#" onclick="document.getElementById('formIndex').submit();">{% trans 'rules_Continue' %}</a>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

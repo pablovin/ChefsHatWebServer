@@ -1,0 +1,29 @@
+@use 'partials/variables';
+
+.sortable-table{
+  width:100%;
+  min-width:500px;
+  border-collapse:collapse;
+  font-weight:bold;
+  color:#ffffff;
+
+  tr{
+    height:50px;
+    background:var(--primary-color);
+    border-bottom:rgba(0,0,0,.05) 1px solid;
+  }
+
+  td{
+    box-sizing:border-box;
+    padding-left:30px;
+
+  }
+
+.headingTr{
+    height:30px;
+    background:var(--secondary-color);
+    color:#f6f3f7;
+    border:0px solid;
+}
+}
+

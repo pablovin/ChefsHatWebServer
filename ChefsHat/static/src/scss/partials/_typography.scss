@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+@use 'media';
+
+@mixin default-style {
+    font-size: var(--text-md);
+    font-family: var(--base-font-family);
+    font-style: var(--base-font-style);
+    line-height: var(--line-height);
+    color: var(--primary-color);
+    text-align: center;
+
+    a {
+        text-decoration: underline;
+        color: inherit;
+    }
+    .text--xxs {
+        font-size: var(--text-xxs);
+    }
+    .text--xs {
+        font-size: var(--text-xs);
+    }
+    .text--sm {
+        font-size: var(--text-sm);
+    }
+    .text--md {
+        font-size: var(--text-md);
+    }
+    .text--lg {
+        font-size: var(--text-lg);
+    }
+    .text--xl {
+        font-size: var(--text-xl);
+    }
+    .text--xxl {
+        font-size: var(--text-xxl);
+    }
+    .text--xxxl {
+        font-size: var(--text-xxxl);
+    }
+    .text--title {
+        color: var(--secondary-color);
+        font-weight: 800;
+    }
+    .text--error{
+     color: var(--error-color);
+      }
+
+}
+
+

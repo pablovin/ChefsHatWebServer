@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+@use 'media';
+@use 'mixins';
+
+:root {
+  //=== Colors
+  --primary-color: rgba(130, 130, 130, 1);
+  --secondary-color: rgba(72, 204, 99, 1);
+  --error-color: rgba(82, 0, 0, 1);
+  --button-text-color: rgb(255, 255, 255);
+  --game-turn-pulse-color: rgba(255, 215, 0, 0.7);
+
+  --border-radius: .8em;
+
+  //=== Section's Paddings
+  --section-global-margin: 1vw, 2vw;
+  --section-global-margin-xs: 1vh 3vw;
+  --section-global-margin-s: 2vh 3vw;
+  --section-global-margin-m: 3vh 4vw;
+  --section-global-margin-l: 3vh 5vw;
+  --section-global-margin-xl: 3vh 8vw;
+
+  //=== typography
+  --base-font-family: Ubuntu, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --base-font-style: normal;
+  --base-font-size: 1em;  //=== Browser's default 16px
+  --base-line-height: 1.3;
+
+  --modal-global-index: 10;
+  --modal-max-width: 100%; //=== Manipulated by JS
+
+  //=== Animation
+  --animation-global-duration: 1s;
+  --cubic-bezier-x1: 0.22;
+  --cubic-bezier-y1: 0.61;
+  --cubic-bezier-x2: 0.36;
+  --cubic-bezier-y2: 1;
+  --r-cubic-bezier-x1: CALC(1 - var(--cubic-bezier-x2));
+  --r-cubic-bezier-y1: CALC(1 - var(--cubic-bezier-y2));
+  --r-cubic-bezier-x2: CALC(1 - var(--cubic-bezier-x1));
+  --r-cubic-bezier-y2: CALC(1 - var(--cubic-bezier-y1));
+  --animation-slide-timing: cubic-bezier(var(--cubic-bezier-x1), var(--cubic-bezier-y1), var(--cubic-bezier-x2), var(--cubic-bezier-y2));
+  --r-animation-slide-timing: cubic-bezier(var(--r-cubic-bezier-x1), var(--r-cubic-bezier-y1), var(--r-cubic-bezier-x2), var(--r-cubic-bezier-y2));
+
+  //=== type scale
+  --text-scale-ratio: 1.3;
+  --text-xxs: CALC(var(--text-xs) / var(--text-scale-ratio));
+  --text-xs: CALC(var(--text-sm) / var(--text-scale-ratio));
+  --text-sm: CALC(var(--text-md) / var(--text-scale-ratio));
+  --text-md: var(--base-font-size);
+  --text-lg: CALC(var(--text-md) * var(--text-scale-ratio));
+  --text-xl: CALC(var(--text-lg) * var(--text-scale-ratio));
+  --text-xxl: CALC(var(--text-xl) * var(--text-scale-ratio));
+  --text-xxxl: CALC(var(--text-xxl) * var(--text-scale-ratio));
+}

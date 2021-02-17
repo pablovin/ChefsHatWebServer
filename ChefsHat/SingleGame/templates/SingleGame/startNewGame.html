@@ -1,155 +1,176 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-<title>Chef's Hat Card Game</title>
-</head>
+{% extends 'base.html' %}
 
-<link href="https://fonts.googleapis.com/css?family=Schoolbell&v1" rel="stylesheet">
-<style>
+{% load i18n %}
 
-       body, html {
-  height: 100%;
-}
+{% block page_title %}
+    Chef's Hat Card Game
+{% endblock %}
 
-body {
-  /* The image used */
-  background-image: url( "/static/images/background.png");
-}
+{% block page_css %}
+    {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/startNewGame.css' %}" />
 
-.centered {
-position: fixed;
-  left: 45%;
-  /* bring your own prefixes */
-  transform: translate(-50%);
-}
+{% endblock %}
 
 
-* {
-  box-sizing: border-box;
-}
+{% block body %}
+ <div id="overlay" class="overlay--game overlay hidden"></div>
 
-/* Create three unequal columns that floats next to each other */
-.column {
-  float: left;
-  padding: 10px;
-}
+    <div class="wrapper">
+        <div class="section section--game_turn">
+            <div class="container container--games">
+                <div class="container__title">
+                    <p class="text text--xl text--title">{% trans 'startNewGame_Rounds' %}: {{ currentGame }}</p>
+                    {% if trialGame %}
+                        <span class="text text--lg">
+                            {% comment %}Translators: You will star now your trial game! It will not count towards the final score. Enjoy it! %} {% endcomment %}
+                    {{playerActiveAction}} {% trans 'startNewGame_startTrialGame' %}
+                             </span>
+                    {% endif %}
+                    {% if currentGame == 0  %}
+                        <span class="text text--lg">
+                            {% comment %}Translators: Now you will start the real challenge! Good luck! %} {% endcomment %}
+                    {{playerActiveAction}} {% trans 'startNewGame_startRealGame' %}
 
-.oneFith {
-  width: 20%;
-  text-align: center;
+                             </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
-}
+        {% if currentGame > 0 %}
+        {% trans 'startNewGame_questionnaire' %}: <br>
+        <iframe width="640px" height= "480px" src= "https://forms.office.com/Pages/ResponsePage.aspx?id=XkYvv3Ufb0u-Kb9TJzvB2u5KiGG9gI9Jl0u_PdkIVS5UNjIyVTlJTzdHMFdMUEpXRDZOUUVRREhUWC4u&embed=true" frameborder= "0" marginwidth= "0" marginheight= "0" style= "border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
+        {% endif %}
 
-.singleColumn {
-  width: 90%;
-  text-align:center;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.centered {
-  position: relative;
-  width: 40%;
-  height: 10%;
-  background-color:#48cc63;
-  font-size: 40px;
-  text-color: white;
-  text-align:center;
-  vertical-align: middle;
-  line-height: 180%;
-
-
-}
-
-.score {
-  background-image: url( "/static/images/scoreBackground.png");
-  position: relative;
-  width: 80%;
-  height: 286px;
-  padding: 10%;
-  font-family: 'Schoolbell', arial, serif;
-}
-
-input[type=button], input[type=submit], input[type=reset] {
-  background-color: #48cc63;
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-decoration: none;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80%;
-}
+        <div class="section section--game_scores">
+            <div class="container container--scores">
+                <div class="container score">
+                    <p class="text text--md">{{ playerNames.0 }}</p>
+                    <p class="text text--md">{% trans 'startNewGame_Score' %}: {{humanScore.0 }}</p>
+                </div>
+                <div class="container score">
+                    <p class="text text--md">{{ playerNames.1 }}</p>
+                    <p class="text text--md">{% trans 'startNewGame_Score' %}: {{humanScore.1}}</p>
+                </div>
+                <div class="container score">
+                    <p class="text text--md">{{ playerNames.2 }}</p>
+                    <p class="text text--md">{% trans 'startNewGame_Score' %}: {{humanScore.2}}</p>
+                </div>
+                <div class="container score">
+                    <p class="text text--md">{{ playerNames.3 }}</p>
+                    <p class="text text--md">{% trans 'startNewGame_Score' %}: {{humanScore.3}}</p>
+                </div>
+            </div>
+        </div>
 
 
-</style>
-
-<body>
-
-<div class="row">
-  <div class="column oneFith">
-    <h1> Games</h1>
-      <div class="centered">
-    {{ currentGame }}
-      </div>
-  </div>
-
-      <div class="column oneFith">
-          <div class="score">
-              <h2> {{ playerNames.0 }}  Score </h2>
-             <h1> {{humanScore.0 }}</h1>
-           </div>
-
-  </div>
-
-      <div class="column oneFith">
-          <div class="score">
-              <h2> {{ playerNames.1 }}  Score </h2>
-             <h1> {{humanScore.1}} </h1>
-          </div>
-  </div>
-
-      <div class="column oneFith">
-          <div class="score">
-              <h2> {{ playerNames.2 }}  Score </h2>
-              <h1> {{humanScore.2}} </h1>
-          </div>
-  </div>
-
-      <div class="column oneFith">
-          <div class="score">
-              <h2> {{ playerNames.3 }}  Score </h2>
-               <h1>{{humanScore.3}}</h1>
-          </div>
-  </div>
-
-    <div class="row">
-  <div class="column singleColumn">
-
-      {% if gameOver %}
-      <form action="{% url 'SingleGame:gameFinished'%}" method="post">
-{% csrf_token %}
-          <input type="submit" value="End of the game!">
-</form>
-      {% else %}
-            <form action="{% url 'SingleGame:startGame'%}" method="post">
-{% csrf_token %}
-          <input type="submit" value="Start Game Number {{ nextGameGame }}">
-</form>
-      {% endif  %}
-  </div>
+   {% comment %} Modal player {% endcomment %}
 
 
-</div>
+        {% if playerHasARole == True and gameOver == False%}
+        <div id="modalPlayer" class="modal modal--player hidden">
+             <div class="modal__header">
+                <p class="text text--xxl title">{% trans 'startNewGame_Exchange' %}</p>
+            </div>
+            <div class="modal__body">
+
+                <div class="modal__player--cards">
+
+                {% if error %}
+                    <p class="text text--sm title error">{% trans 'startNewGame_Invalid' %}</p>
+                    <p class="text text--sm error">{{errorMessage}}</p>
+                {% endif %}
+
+                 {% if dinnerServed %}
+                    <img class="img img--card" src="../../static/images/actionCards/cardDinner.png">
+                    {% comment %}Translators: [player] said Dinner Served! There will be no card exchange on this round! %} {% endcomment %}
+                    {{playerActiveAction}} {% trans 'startNewGame_dinnerServedMessage' %}  </br></br>
+                     <form id="form--card-exchange" class="form" action="{% url 'SingleGame:startGame'%}" method="post">
+                         {% csrf_token %}
+                        <div class="modal__player--cards--form">
+                            <input id="playerHasToChoose" name="playerHasToChoose" type="hidden" value="0">
+                            <a href="#" class="form__button text--md button">{% trans 'rules_Continue' %}  </a>
+                        </div>
+                     </form>
+                 {% else %}
+                    <form id="form--card-exchange" class="form" action="{% url 'SingleGame:startGame'%}" method="post">
+                        {% csrf_token %}
+                        <div class="container__player--cards">
+
+                             {% if foodFight %}
+                             <img class="img img--card" src="../../static/images/actionCards/cardFight.png">
+                            {% comment %}Translators: [player] said Food Fight! Your role changed: %} {% endcomment %}
+                                {{playerActiveAction}} {% trans 'startNewGame_foodFightdMessage' %}  {{thisPlayerPreviousRole}} -> {{thisPlayerRole}}!
+                             {% endif %}
+
+                            <p class="text text--lg"> {% trans 'startNewGame_From' %}  {{receivedFrom}}: </p> </br>
+
+                                {% for index, card in receivedCard %}
+                                        <div class="card">
+                                            <label class="form__label">
+                                                <img class="img img--card" src="../../static/images/{{card}}">
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+
+                            <p class="text text--lg">{{phraseRole}} {{receivedFrom}}:</p>
+
+                            {% for index, card in player0Cards %}
+                                <div class="card">
+                                    <input class="form__radio" type="checkbox" value="{{card}}" name="selectedAction" id="cardPlayer{{index}}">
+                                    <label class="form__label" for="cardPlayer{{index}}">
+                                        <img class="img img--card" src="../../static/images/{{card}}">
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="modal__player--cards--form">
+                            <input id="playerID" name="playerHasToChoose" type="hidden" value="1">
+                            <a href="#" class="form__button text--md button">{% trans 'startNewGame_sendCards' %}  </a>
+                        </div>
+                    </form>
+                  {% endif %}
+
+              </div>
+
+            </div>
+            <div class="modal__footer">
+                <p class="text text--sm"> {% trans 'startNewGame_pleaseRefer' %} <a href="{% url 'SingleGame:ruleBook' %}" target="_blank">{% trans 'startNewGame_rulebook' %}</a> {% trans 'startNewGame_paraMaisInformacoes' %}</p>
+            </div>
 
 
+        </div>
+{% endif %}
 
 
+    {% comment %} Modal game finished {% endcomment %}
 
-</body>
-</html>
+        <div class="section section--footer">
+            <div class="container container--form">
+
+                {% if gameOver %}
+                <form id="form--game-over" class="form" action="{% url 'SingleGame:gameFinished'%}" method="post">
+                    {% csrf_token %}
+                    <a href="#" onclick="document.getElementById('form--game-over').submit();" class="form__button text--md button">{% trans 'startNewGame_endOfGame' %}</a>
+                </form>
+                {% else %}
+                <form id="form--game-start" class="form" action="{% url 'SingleGame:startGame'%}" method="post">
+                    {% csrf_token %}
+                     {% if playerHasARole == True and gameOver == False%}
+                    <a href="#" onclick="document.getElementById('form--card-exchange').submit();" class="form__button text--md button">{% trans 'startNewGame_newGame' %} {{ nextGameGame }}</a>
+                     {% else %}
+                    <a href="#" onclick="document.getElementById('form--game-start').submit();" class="form__button text--md button">{% trans 'startNewGame_newGame' %} {{ nextGameGame }}</a>
+                     {% endif %}
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    {% load static %}
+    <script src="{% static 'js/startNewGame.js' %}"></script>
+{% endblock %}

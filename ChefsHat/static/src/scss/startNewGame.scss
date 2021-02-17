@@ -1,0 +1,67 @@
+@use 'partials/components';
+@use 'partials/mixins';
+@use 'partials/media';
+
+html {
+  body {
+    overflow: hidden;
+    @include components.modalOverlay;
+
+    .wrapper {
+      @include components.modalPlayer;
+      position: relative;
+
+
+      .section--game_turn {
+        @include mixins.flex(1);
+      }
+
+      .section--game_scores {
+        @include mixins.flex(4);
+        width: 100%;
+
+        .container--scores {  
+          @include mixins.flexRow();
+          @include mixins.flex(1);
+          width: 100%;
+
+          @include media.media('landscape-max-h414') {
+            @include mixins.flex-wrap(nowrap);
+          }
+          @include media.media('portrait', '>=s-phone') {
+            @include mixins.flex-wrap(wrap);
+          }
+          .score {
+            @include mixins.flex-grow(1);
+            @include mixins.flexCol(center);
+            margin: 1em;
+            background: url("/static/images/scoreBackground.png") no-repeat center/contain;
+            height: 100%;
+            width: 100%;
+            max-width: 18vw;
+
+            @include media.media('portrait', '>=s-phone') {
+              height: 35%;
+              width: 100%;
+              max-width: 30vw;
+            }
+          }
+        }
+      }
+
+      .section--footer {
+        @include mixins.flex(1);
+
+        .container--form {
+          .form {
+            @include components.button;
+
+            .form__submit {
+              margin-top: 0;
+            }
+          } 
+        }
+      }
+    }
+  }
+}

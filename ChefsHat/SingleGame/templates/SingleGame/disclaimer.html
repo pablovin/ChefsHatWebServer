@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block page_title %}
+    Chef's Hat Card Game
+{% endblock %}
+
+{% block page_css %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/disclaimer.css' %}" />
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="wrapperDisclaimer">
+        <div class="section section--content">
+            <div class="container container--intro">
+                <p class="text text--md text--title">
+
+                    {% comment %}Translators: Experiment Information Title{% endcomment %}
+{% trans 'disclaimer_ExperimentInformationTitle' %}
+                     </p>
+                    <p align="justify">
+
+                                            {% comment %}Translators: Experiment Information Text{% endcomment %}
+{% trans 'disclaimer_ExperimentInformationText' %}</p>
+
+
+</br></br>
+<p class="text text--md text--title">                     {% comment %}Translators: Data Collection Policy Title{% endcomment %}
+{% trans 'disclaimer_DataCollectionTitle' %} </p>
+
+                <p align="justify">  {% comment %}Translators: Data Collection Policy Text{% endcomment %}
+{% trans 'disclaimer_DataCollectionText1' %} </p>
+
+                   </br>
+<ol>
+    <li>  {% comment %}Translators: The answers you will give will be used within the research project only;{% endcomment %}
+{% trans 'disclaimer_DataCollectionOption1' %}  </li>
+    <li> {% comment %}Translators: The data will be anonymously processed and for scientific purposes only;{% endcomment %}
+{% trans 'disclaimer_DataCollectionOption2' %}  </li>
+    <li> {% comment %}Translators: The results of this study can be published in scientific journals in aggregated form only.{% endcomment %}
+{% trans 'disclaimer_DataCollectionOption3' %} </li>
+</ol>
+ </br>
+                <p align="justify">  {% comment %}Translators: Data Collection Policy Text{% endcomment %}
+{% trans 'disclaimer_DataCollectionText2' %} </p>
+
+                </br></br>
+<p class="text text--md text--title"> {% comment %}Translators: Contact Information Title{% endcomment %}
+{% trans 'disclaimer_ContactTitle' %}  </p>
+
+  <p align="justify"> {% comment %}Translators: Contact Information Text1{% endcomment %}
+{% trans 'disclaimer_ContactText1' %}</p>
+
+
+                <p align="justify">{% comment %}Translators: Contact Information Text2{% endcomment %}
+{% trans 'disclaimer_ContactText2' %}</p> </br>
+
+
+<ul>
+    <li><a href="https://discord.gg/PwnfSm7B" target="_blank"> Discord </a></li>
+    <li>E-mail: pablo.alvesdebarros@iit.it</li>
+</ul>
+
+ </br></br>
+<p class="text text--md text--title"> {% comment %}Translators: Participation Confirmation Title{% endcomment %}
+{% trans 'disclaimer_PartConfirmationTitle' %} </p>
+ <p align="justify">
+
+     {% comment %}Translators: Participation Confirmation Text{% endcomment %}
+{% trans 'disclaimer_PartConfirmationText' %} </p>
+
+
+<ol>
+        <li>
+                 {% comment %}Translators:  I have read the information section giving details of this study.{% endcomment %}
+{% trans 'disclaimer_PartConfirmationOption1' %}</li>
+
+        <li>         {% comment %}Translators:  I understand my participation is voluntary and I can withdraw consent at any time without giving any reason.{% endcomment %}
+{% trans 'disclaimer_PartConfirmationOption2' %}</li>
+         <li>  {% comment %}Translators:  I give permission that any information that I provide will be used anonymously in this research or in the monitoring of the research..{% endcomment %}
+{% trans 'disclaimer_PartConfirmationOption3' %}</li>
+</ol>
+
+
+            </div>
+        </div>
+        <div class="section section--form">
+            <div class="container container--form">
+
+                 <form id="formIndex" class="form form--index" action="{% url 'SingleGame:startExperiment'%}" method="post">
+                    {% csrf_token %}
+                    <a class="form__button text--md button" href="#" onclick="document.getElementById('formIndex').submit();">{% trans 'rules_Continue' %}</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
